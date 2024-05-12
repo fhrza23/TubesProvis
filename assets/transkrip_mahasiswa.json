@@ -1,0 +1,32 @@
+{
+    "nama": "Budi Martami",
+    "nim": "123456789",
+    "semester": 4,
+    "mata_kuliah": [
+      {
+        "kode": "MK101",
+        "nama": "Matematika Dasar",
+        "sks": 3,
+        "nilai": "A"
+      },
+      {
+        "kode": "MK202",
+        "nama": "Pemrograman Dasar",
+        "sks": 4,
+        "nilai": "B+"
+      },
+      {
+        "kode": "MK303",
+        "nama": "Struktur Data",
+        "sks": 3,
+        "nilai": "A-"
+      },
+      {
+        "kode": "MK404",
+        "nama": "Basis Data",
+        "sks": 3,
+        "nilai": "C"
+      }
+    ]
+  }
+  
