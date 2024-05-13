@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dashboard.dart';
-import 'doctor_profile.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,11 +18,11 @@ class MyApp extends StatelessWidget {
 String _getImagePath(int index) {
   switch (index) {
     case 0:
-      return 'images/doctor1.jpg';
+      return 'assets/doctor1.jpg';
     case 1:
-      return 'images/doctor2.jpg';
+      return 'assets/doctor2.jpg';
     case 2:
-      return 'images/doctor3.jpg';
+      return 'assets/doctor3.jpg';
     default:
       return '';
   }
@@ -73,76 +71,31 @@ class DoctorList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
-            decoration: BoxDecoration(
-              color: Color(0xFF00897B),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Dashboard()),
-                    );
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'images/back.png',
-                      width: 40,
-                      height: 40,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'images/notification.png',
-                      width: 35,
-                      height: 35,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20),
-                GestureDetector(
-                  onTap: () {
-                    
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'images/person.png',
-                      width: 35,
-                      height: 35,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+      appBar: AppBar(
+        backgroundColor: Colors.teal, 
+        leading: IconButton(
+          icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white), 
+            onPressed: () {
+             
+            },
           ),
-          SizedBox(height: 10), 
+          IconButton(
+            icon: Icon(Icons.person, color: Colors.white), 
+            onPressed: () {
+              
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20), 
           Padding(
             padding: EdgeInsets.only(left: 18, top: 20, bottom: 20),
             child: Text(
@@ -154,12 +107,12 @@ class DoctorList extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
                 Expanded(
+                  flex: 2,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black,
@@ -188,6 +141,7 @@ class DoctorList extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
+                  flex: 1,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF00897B),
@@ -219,6 +173,7 @@ class DoctorList extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
+                  flex: 1,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color(0xFF00897B),
@@ -260,103 +215,102 @@ class DoctorList extends StatelessWidget {
               ],
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 3, 
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 18),
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            radius: 70,
-                            backgroundImage: AssetImage(_getImagePath(index)),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 3, 
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 18),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: CircleAvatar(
+                              radius: 70,
+                              backgroundImage: AssetImage(_getImagePath(index)),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getName(index),
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              _getSpecialist(index),
-                              style: GoogleFonts.hindMadurai(
-                                fontSize: 17,
-                                color: Color(0xFF00897B),
-                              ),
-                            ),
-                            RatingBar(
-                              initialRating: _getRating(index),
-                              allowHalfRating: true,
-                              itemSize: 23,
-                              itemCount: 5,
-                              ratingWidget: RatingWidget(
-                                full: Icon(Icons.star, color: Colors.black),
-                                half:Icon(Icons.star_half, color: Colors.black),
-                                empty: Icon(Icons.star_border, color: Colors.black),
-                              ),
-                              onRatingUpdate: (rating) {
-                                // Handle rating update
-                              },
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => DoctorProfile()),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.teal, // Warna tombol teal
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    10
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _getName(index),
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 20,
                                   ),
                                 ),
-                              ),
-                              child: Text(
-                                'Profil Dokter',
-                                style: TextStyle(
-                                  color: Colors.white,
+                                Text(
+                                  _getSpecialist(index),
+                                  style: GoogleFonts.hindMadurai(
+                                    fontSize: 17,
+                                    color: Color(0xFF00897B),
+                                  ),
                                 ),
-                              ),
+                                RatingBar(
+                                  initialRating: _getRating(index),
+                                  allowHalfRating: true,
+                                  itemSize: 23,
+                                  itemCount: 5,
+                                  ratingWidget: RatingWidget(
+                                    full: Icon(Icons.star, color: Colors.black),
+                                    half:Icon(Icons.star_half, color: Colors.black),
+                                    empty: Icon(Icons.star_border, color: Colors.black),
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    // Handle rating update
+                                  },
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.teal, // Warna tombol teal
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        10
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Profil Dokter',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20), 
-                  Divider(
-                    color: Colors.grey,
-                    thickness: 2,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                ],
-              );
-            },
+                      ],
+                    ),
+                    SizedBox(height: 20), 
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 2,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),

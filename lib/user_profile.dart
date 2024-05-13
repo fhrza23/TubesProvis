@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dashboard.dart';
-import 'sandi_1.dart';
-import 'daftar_anggota_keluarga.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -41,16 +38,11 @@ class UserProfile extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Dashboard()),
-                            );
+                            
                           },
-                          child: Image.asset(
-                            'images/back.png',
-                            width: 40,
-                            height: 40,
-                            color: Colors.white,
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+                            onPressed: () {},
                           ),
                         ),
                       ],
@@ -58,7 +50,7 @@ class UserProfile extends StatelessWidget {
                     SizedBox(height: 20),
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('images/Sarah.jpeg'),
+                      backgroundImage: AssetImage('assets/Sarah.jpeg'),
                     ),
                     SizedBox(height: 80),
                   ],
@@ -110,10 +102,7 @@ class UserProfile extends StatelessWidget {
             padding: EdgeInsets.only(left: 35), 
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DaftarAnggotaKeluarga()),
-                );
+                
               },
               child: Container(
                 child: Row(
@@ -122,7 +111,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'images/family.png',
+                          'assets/family.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -147,10 +136,7 @@ class UserProfile extends StatelessWidget {
             padding: EdgeInsets.only(left: 35),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SandiPage()),
-                );
+                
               },
               child: Container(
                 child: Row(
@@ -159,7 +145,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'images/password.png',
+                          'assets/password.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -193,7 +179,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'images/log-out.png',
+                          'assets/log-out.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -229,7 +215,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'images/location-person.png',
+                                'assets/location-person.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
@@ -258,7 +244,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'images/mail.png',
+                                'assets/mail.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
@@ -287,7 +273,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'images/call.png',
+                                'assets/call.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
