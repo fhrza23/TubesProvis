@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DaftarAnggotaKeluarga(),
-    );
-  }
-}
+import 'dashboard.dart';
 
 String _getImagePath(int index) {
   switch (index) {
     case 0:
-      return 'assets/Sarah.jpeg';
+      return 'images/Sarah.jpeg';
     case 1:
-      return 'assets/BudiSantoso.jpg';
+      return 'images/BudiSantoso.jpg';
     case 2:
-      return 'assets/Maya.jpg';
+      return 'images/Maya.jpg';
     default:
       return ''; // Handle jika ada lebih dari 3 item
   }
@@ -61,7 +49,12 @@ class DaftarAnggotaKeluarga extends StatelessWidget {
         backgroundColor: Colors.teal,
         leading: IconButton(
           icon: Icon(Icons.arrow_circle_left, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context) => Dashboard())
+            );
+          },
         ),
         actions: [
           IconButton(

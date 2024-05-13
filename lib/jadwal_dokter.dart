@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: JadwalDokter(),
-    );
-  }
-}
+import 'dashboard.dart';
 
 String _getDay(int index) {
   switch (index) {
@@ -43,11 +31,11 @@ String _getTime(int index) {
 String _getImagePath(int index) {
   switch (index) {
     case 0:
-      return 'assets/doctor1.jpg';
+      return 'images/doctor1.jpg';
     case 1:
-      return 'assets/doctor2.jpg';
+      return 'images/doctor2.jpg';
     case 2:
-      return 'assets/doctor3.jpg';
+      return 'images/doctor3.jpg';
     default:
       return '';
   }
@@ -87,7 +75,12 @@ class JadwalDokter extends StatelessWidget {
         backgroundColor: Colors.teal, 
         leading: IconButton(
           icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context) => Dashboard())
+            );
+          },
         ),
         actions: [
           IconButton(
@@ -236,7 +229,7 @@ class JadwalDokter extends StatelessWidget {
                       Row(
                         children: [
                           Image.asset(
-                            'assets/location-person.png',
+                            'images/location-person.png',
                             width: 20,
                             height: 20,
                             color: Colors.white,
@@ -263,7 +256,7 @@ class JadwalDokter extends StatelessWidget {
                       Row(
                         children: [
                           Image.asset(
-                            'assets/mail.png',
+                            'images/mail.png',
                             width: 20,
                             height: 20,
                             color: Colors.white,
@@ -290,7 +283,7 @@ class JadwalDokter extends StatelessWidget {
                       Row(
                         children: [
                           Image.asset(
-                            'assets/call.png',
+                            'images/call.png',
                             width: 20,
                             height: 20,
                             color: Colors.white,

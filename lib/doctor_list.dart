@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DoctorList(),
-    );
-  }
-}
+import 'dashboard.dart';
 
 String _getImagePath(int index) {
   switch (index) {
     case 0:
-      return 'assets/doctor1.jpg';
+      return 'images/doctor1.jpg';
     case 1:
-      return 'assets/doctor2.jpg';
+      return 'images/doctor2.jpg';
     case 2:
-      return 'assets/doctor3.jpg';
+      return 'images/doctor3.jpg';
     default:
       return '';
   }
@@ -75,7 +63,12 @@ class DoctorList extends StatelessWidget {
         backgroundColor: Colors.teal, 
         leading: IconButton(
           icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context) => Dashboard())
+            );
+          },
         ),
         actions: [
           IconButton(
