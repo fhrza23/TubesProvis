@@ -8,6 +8,7 @@ import 'user_profile.dart';
 import 'rekam_medis_1.dart';
 import 'artikel_1.dart';
 import 'pendaftaraan.dart';
+import 'semua_notifikasi.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -73,10 +74,10 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ],
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_down),
-                    onTap: () {
-                      // Tambahkan logika jika Anda ingin melakukan sesuatu ketika item diklik
-                    },
+                    // trailing: Icon(Icons.keyboard_arrow_down),
+                    // onTap: () {
+                    //   // Tambahkan logika jika Anda ingin melakukan sesuatu ketika item diklik
+                    // },
                   ),
                   ListTile(
                     leading: Container(
@@ -99,9 +100,10 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ],
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_down),
+                    // trailing: Icon(Icons.keyboard_arrow_down),
                     onTap: () {
                       // Tambahkan logika jika Anda ingin melakukan sesuatu ketika item diklik
+                      
                     },
                   ),
                   // Tambahkan menu dan subjudul lainnya sesuai kebutuhan
@@ -109,6 +111,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   ElevatedButton(
                     onPressed: () {
                       // Tambahkan logika untuk menangani aksi saat tombol submit ditekan
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NotificationListPage()),
+                      );
                     },
                     child: Text('Lihat Semua', style: TextStyle(color: Color.fromRGBO(35, 136, 120, 1)) ,),
                   ),
