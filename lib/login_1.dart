@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'sandi_1.dart';
 import 'dashboard.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController nikController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +45,7 @@ class LoginPage extends StatelessWidget {
                     maxWidth: 400, // Atur lebar maksimum sesuai kebutuhan
                   ),
                   child: TextFormField(
+                    controller: nikController, // Menetapkan controller untuk NIK
                     decoration: InputDecoration(
                       labelText: 'Nomor Induk Kependudukkan',
                       // suffixIcon: Icon(Icons.assignment_ind),
@@ -48,6 +59,7 @@ class LoginPage extends StatelessWidget {
                     maxWidth: 400, // Atur lebar maksimum sesuai kebutuhan
                   ),
                   child: TextFormField(
+                    controller: passwordController, // Menetapkan controller untuk password
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Kata Sandi',
@@ -60,13 +72,55 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(height: 100),
                 ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  String nik = nikController.text;
+                  String password = passwordController.text;
+
+                  var url = 'http://127.0.0.1:8000/api/login';
+
+                  var response = await http.post(
+                    Uri.parse(url),
+                    headers: {
+                      'Content-Type': 'application/json', // Atur header Content-Type sebagai application/json
+                    },
+                    body: jsonEncode({ // Encode data dalam format JSON
+                      'nik': nik,
+                      'password': password,
+                    }),
+                  );
+
+                  if (response.statusCode == 200) {
+                    // Berhasil login
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Dashboard()),
                     );
-                  // Aksi ketika tombol login ditekan
+                  } else {
+                    // Gagal login, menampilkan pesan kesalahan
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Gagal Masuk"),
+                          content: Text("NIK atau kata sandi salah. Silakan coba lagi."),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("OK"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => Dashboard()),
+                  //   );
+                  // Aksi ketika tombol login ditekan
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(200, 50), 
                   side: BorderSide(color: Colors.teal, width: 3),

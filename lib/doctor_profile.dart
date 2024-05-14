@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'doctor_list.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,132 +19,256 @@ class DoctorProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      appBar: AppBar(
+        backgroundColor: Colors.teal, 
+        leading: IconButton(
+          icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white), 
+            onPressed: () {
+             
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person, color: Colors.white), 
+            onPressed: () {
+              
+            },
+          ),
+        ],
+      ),
+      body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
-            decoration: BoxDecoration(
-              color: Color(0xFF00897B),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DoctorList()),
-                    );
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Color(0xFF00897B), 
+                          width: 7, 
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 130, 
+                        backgroundImage: AssetImage('assets/doctor1.jpg'),
+                      ),
                     ),
-                    child: Image.asset(
-                      'images/back.png',
-                      width: 40,
-                      height: 40,
-                      color: Colors.white,
+                    SizedBox(height: 10),
+                    Image.asset(
+                      'assets/line.png',
+                      width: 50,
+                      height: 50,
+                      color: Colors.grey,
                     ),
-                  ),
+                    Text(
+                      'dr. Indra Cahya, Sp.THT',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Spesialis THT',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    RatingBar(
+                      initialRating: 4,
+                      allowHalfRating: true,
+                      itemSize: 23,
+                      itemCount: 5,
+                      ratingWidget: RatingWidget(
+                        full: Icon(Icons.star, color: Colors.black),
+                        half:Icon(Icons.star_half, color: Colors.black),
+                        empty: Icon(Icons.star_border, color: Colors.black),
+                      ),
+                      onRatingUpdate: (rating) {
+                        
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 110), 
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/alumni.png',
+                                  width: 35,
+                                  height: 35,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10), 
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Alumni',
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Universitas Indonesia 2011', 
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 110), 
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/card-travel.png',
+                                  width: 35,
+                                  height: 35,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10), 
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Pengalaman',
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                      '12 Tahun',
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 110, bottom: 15),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/card.png',
+                                  width: 35,
+                                  height: 35,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nomor STR',
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    Text(
+                                      '3624612414124', 
+                                      style: GoogleFonts.hindMadurai(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 39),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10), 
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Color(0xFF00897B), 
+                          width: 2,
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                         
+                        },
+                        child: Text(
+                          'Atur Jadwal', 
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF00897B), 
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white, 
+                          elevation: 0, 
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'images/notification.png',
-                      width: 35,
-                      height: 35,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20),
-                GestureDetector(
-                  onTap: () {
-                    
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'images/person.png',
-                      width: 35,
-                      height: 35,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          SizedBox(height: 20),
-          Center(
+          Container(
+            color: Color(0xFF00897B),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Color(0xFF00897B), 
-                      width: 7, 
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 130, 
-                    backgroundImage: AssetImage('images/doctor1.jpg'),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Image.asset(
-                  'images/line.png',
-                  width: 50,
-                  height: 50,
-                  color: Colors.grey,
-                ),
-                Text(
-                  'dr. Indra Cahya, Sp.THT',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Spesialis THT',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                RatingBar(
-                  initialRating: 4,
-                  allowHalfRating: true,
-                  itemSize: 23,
-                  itemCount: 5,
-                  ratingWidget: RatingWidget(
-                    full: Icon(Icons.star, color: Colors.black),
-                    half:Icon(Icons.star_half, color: Colors.black),
-                    empty: Icon(Icons.star_border, color: Colors.black),
-                  ),
-                  onRatingUpdate: (rating) {
-                    
-                  },
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 5),
                 Padding(
-                  padding: EdgeInsets.only(left: 110), 
+                  padding: EdgeInsets.only(left: 16, top: 20),
                   child: Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,115 +276,18 @@ class DoctorProfile extends StatelessWidget {
                         Row(
                           children: [
                             Image.asset(
-                              'images/alumni.png',
-                              width: 35,
-                              height: 35,
-                              color: Colors.black,
-                            ),
-                            SizedBox(width: 10), 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Alumni',
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  'Universitas Indonesia 2011', 
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.only(left: 110), 
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'images/card-travel.png',
-                              width: 35,
-                              height: 35,
-                              color: Colors.black,
-                            ),
-                            SizedBox(width: 10), 
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Pengalaman',
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  '12 Tahun',
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.only(left: 110, bottom: 15),
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'images/card.png',
-                              width: 35,
-                              height: 35,
-                              color: Colors.black,
+                              'assets/location-person.png',
+                              width: 20,
+                              height: 20,
+                              color: Colors.white,
                             ),
                             SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Nomor STR',
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  '3624612414124', 
-                                  style: GoogleFonts.hindMadurai(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              'Jalan Rumah Sehat No 01',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -270,136 +295,65 @@ class DoctorProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Container(
-                  margin: EdgeInsets.only(bottom: 39),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), 
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFF00897B), 
-                      width: 2,
+                SizedBox(height: 5),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/mail.png',
+                              width: 20,
+                              height: 20,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              'rawatjalan@gmail.com',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                     
-                    },
-                    child: Text(
-                      'Atur Jadwal', 
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF00897B), 
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, 
-                      elevation: 0, 
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                ),
+                SizedBox(height: 5),
+                Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 20),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/call.png',
+                              width: 20,
+                              height: 20,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              '021-1234567890',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              color: Color(0xFF00897B),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16, top: 20),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'images/location-person.png',
-                                width: 20,
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Jalan Rumah Sehat No 01',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'images/mail.png',
-                                width: 20,
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'rawatjalan@gmail.com',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16, bottom: 20),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'images/call.png',
-                                width: 20,
-                                height: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                '021-1234567890',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
         ],

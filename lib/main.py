@@ -59,15 +59,26 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sqlite3
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Atur sesuai dengan kebutuhan Anda
+    allow_credentials=True,
+    allow_methods=["POST", "OPTIONS"],  # Izinkan metode POST dan OPTIONS
+    allow_headers=["*"],
+)
 
 # Model untuk data pengguna
 class User(BaseModel):
     nik: str
-    nama: str
     password: str
-    no_hp: str
+    
+    class Config:
+        orm_mode = True
+        validate_assignment = True
 
 # Fungsi untuk menghubungkan ke database SQLite
 def connect_db():
@@ -112,3 +123,21 @@ def get_user(user_id: int):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
+@app.post('/api/login')
+def login(user: User):
+    try:
+        # Proses autentikasi di sini
+        conn = connect_db()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE nik = ? AND password = ?', (user.nik, user.password))
+        print(user.dict())  # Cetak entitas untuk memeriksa formatnya
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return {'message': 'Login successful'}
+        else:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+    except Exception as e:
+        print(f"Error processing login request: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
