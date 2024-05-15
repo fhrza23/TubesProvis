@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user_profile.dart';
-import 'notifikasi_detail.dart';
+// import 'notifikasi_detail.dart';
 
 // Widget untuk menampilkan halaman daftar notifikasi
 class NotificationListPage extends StatelessWidget {
@@ -87,12 +87,12 @@ class NotificationListView extends StatelessWidget {
           ),
           onTap: () {
             // Tambahkan logika untuk menangani aksi saat item notifikasi diklik
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NotificationDetailPage(notification: notifications[index]),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => NotificationDetailPage(notification: notifications[index]),
+            //   ),
+            // );
           },
         );
       },

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dashboard.dart';
+import 'package:flutter_application_2/main.dart';
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: UserProfile(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: UserProfile(),
+//     );
+//   }
+// }
 
 class UserProfile extends StatelessWidget {
   @override
@@ -37,12 +39,20 @@ class UserProfile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            
-                          },
+                          // onTap: () {
+                          //   Navigator.push(
+                          //     context, 
+                          //     MaterialPageRoute(builder: (context) => Dashboard())
+                          //   );
+                          // },
                           child: IconButton(
                             icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => Dashboard())
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -50,7 +60,7 @@ class UserProfile extends StatelessWidget {
                     SizedBox(height: 20),
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/Sarah.jpeg'),
+                      backgroundImage: AssetImage('images/Sarah.jpeg'),
                     ),
                     SizedBox(height: 80),
                   ],
@@ -111,7 +121,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/family.png',
+                          'images/family.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -145,7 +155,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/password.png',
+                          'images/password.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -179,7 +189,7 @@ class UserProfile extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          'assets/log-out.png',
+                          'images/log-out.png',
                           width: 20,
                           height: 20,
                           color: Colors.black,
@@ -215,7 +225,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'assets/location-person.png',
+                                'images/location-person.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
@@ -244,7 +254,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'assets/mail.png',
+                                'images/mail.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
@@ -273,7 +283,7 @@ class UserProfile extends StatelessWidget {
                           Row(
                             children: [
                               Image.asset(
-                                'assets/call.png',
+                                'images/call.png',
                                 width: 20,
                                 height: 20,
                                 color: Colors.white,
