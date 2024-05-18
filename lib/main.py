@@ -80,6 +80,22 @@ class User(BaseModel):
         orm_mode = True
         validate_assignment = True
 
+# Model untuk data dokter
+class Dokter(BaseModel):
+    id_dokter: int
+    nama_dokter: str
+    spesialis: str
+    hari_praktek: str
+    jam_praktek: str
+    rating: float
+    alumni: str
+    pengalaman: str
+    nomor_str: int
+    
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+
 # Fungsi untuk menghubungkan ke database SQLite
 def connect_db():
     try:
@@ -141,3 +157,27 @@ def login(user: User):
     except Exception as e:
         print(f"Error processing login request: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+
+# Endpoint untuk mendapatkan semua data dokter
+@app.get('/api/dokter')
+def get_all_dokter():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM dokter')
+    dokter = cursor.fetchall()
+    conn.close()
+    return dokter
+
+# Endpoint untuk mendapatkan detail dokter berdasarkan ID
+@app.get('/api/dokter/{id_dokter}')
+def get_dokter(id_dokter: int):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM dokter WHERE id_dokter = ?', (id_dokter,))
+    dokter = cursor.fetchone()
+    conn.close()
+    
+    if dokter:
+        return dokter
+    else:
+        raise HTTPException(status_code=404, detail="Doctor not found")
