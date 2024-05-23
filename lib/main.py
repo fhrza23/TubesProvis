@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import sqlite3
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+from typing import List
 
 app = FastAPI()
 
@@ -35,6 +37,20 @@ class Dokter(BaseModel):
     nomor_str: int
     foto_dokter: str
     
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+        
+# Model untuk data notifikasi
+class Notifikasi(BaseModel):
+    id_notif: int
+    tipe_notif: int
+    title: str
+    subtitle: str
+    time: datetime
+    id_news: int
+    content: str
+
     class Config:
         orm_mode = True
         validate_assignment = True
@@ -124,3 +140,68 @@ def get_dokter(id_dokter: int):
         return dokter
     else:
         raise HTTPException(status_code=404, detail="Doctor not found")
+    
+    
+# Endpoint untuk membuat notifikasi baru
+@app.post('/api/notifikasi', status_code=201)
+def create_notifikasi(notifikasi: Notifikasi):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO notifikasi (tipe_notif, title, subtitle, time, id_news, content) VALUES (?, ?, ?, ?, ?, ?)',
+                   (notifikasi.tipe_notif, notifikasi.title, notifikasi.subtitle, notifikasi.time.isoformat(), notifikasi.id_news, notifikasi.content))
+    conn.commit()
+    conn.close()
+    return {'message': 'Notifikasi created successfully'}
+
+# Endpoint untuk mendapatkan detail notifikasi berdasarkan ID
+@app.get('/api/notifikasi', response_model=List[Notifikasi])
+def get_all_notifikasi():
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to the database")
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT * FROM notifikasi')
+        rows = cursor.fetchall()
+        if not rows:
+            raise HTTPException(status_code=404, detail="No notifikasi found")
+        
+        notifikasi_list = []
+        for row in rows:
+            notifikasi = Notifikasi(
+                id_notif=row[0],
+                tipe_notif=row[1],
+                title=row[2],
+                subtitle=row[3],
+                time=datetime.fromisoformat(row[4]),  # Pastikan format waktu sesuai
+                id_news=row[5],
+                content=row[6]
+            )
+            notifikasi_list.append(notifikasi)
+    except Exception as e:
+        conn.close()
+        print(f"Error fetching notifikasi: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch notifikasi")
+    conn.close()
+    return notifikasi_list
+
+# Endpoint untuk mengupdate notifikasi berdasarkan ID
+@app.put('/api/notifikasi/{id_notif}', response_model=Notifikasi)
+def update_notifikasi(id_notif: int, notifikasi: Notifikasi):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('UPDATE notifikasi SET tipe_notif = ?, title = ?, subtitle = ?, time = ?, id_news = ?, content = ? WHERE id_notif = ?',
+                   (notifikasi.tipe_notif, notifikasi.title, notifikasi.subtitle, notifikasi.time.isoformat(), notifikasi.id_news, notifikasi.content, id_notif))
+    conn.commit()
+    conn.close()
+    return notifikasi
+
+# Endpoint untuk menghapus notifikasi berdasarkan ID
+@app.delete('/api/notifikasi/{id_notif}', status_code=204)
+def delete_notifikasi(id_notif: int):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM notifikasi WHERE id_notif = ?', (id_notif,))
+    conn.commit()
+    conn.close()
+    return {'message': 'Notifikasi deleted successfully'}
