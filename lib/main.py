@@ -312,6 +312,8 @@ def login(user: LoginUser):
 # Endpoint untuk memeriksa apakah NIK sudah digunakan
 @app.post('/api/check_nik')
 def check_nik(nik: CheckNIK):
+    if not nik.nik:
+        raise HTTPException(status_code=400, detail="NIK cannot be null or empty")
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")

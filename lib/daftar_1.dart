@@ -121,6 +121,7 @@
 //   );
 // }
 // }
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -165,6 +166,10 @@ class _DaftarPageState extends State<DaftarPage> {
   }
 
   Future<bool> _checkNIK(String nik) async {
+    if (nik == null || nik.isEmpty) {
+      return false;
+    }
+
     final response = await http.post(
       Uri.parse('http://127.0.0.1:8000/api/check_nik'),
       headers: {'Content-Type': 'application/json'},
@@ -193,7 +198,7 @@ class _DaftarPageState extends State<DaftarPage> {
       } else {
         // NIK is already used, show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('NIK sudah digunakan.')),
+          SnackBar(content: Text('NIK sudah digunakan atau kosong.')),
         );
       }
     } catch (e) {
@@ -309,7 +314,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       } else {
                         // NIK is already used, show error message
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('NIK sudah digunakan.')),
+                          SnackBar(content: Text('NIK sudah digunakan atau kosong.')),
                         );
                       }
                     } catch (e) {
