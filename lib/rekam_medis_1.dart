@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'rekam_medis_sarah.dart'; // Import halaman rekam medis pasien Sarah
-import 'dashboard.dart';
+import 'screens/dashboard-notifikasi/dashboard.dart';
 
 // void main() {
 //   runApp(MyApp());

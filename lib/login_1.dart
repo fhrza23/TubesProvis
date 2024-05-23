@@ -171,7 +171,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_2/model/login_model.dart';
-import 'package:flutter_application_2/dashboard.dart';
+import 'screens/dashboard-notifikasi/dashboard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'sandi_1.dart';

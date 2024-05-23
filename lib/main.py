@@ -240,6 +240,17 @@ class Notifikasi(BaseModel):
         orm_mode = True
         validate_assignment = True
 
+# Model untuk data artikel
+class Artikel(BaseModel):
+    judul: str
+    tanggal: str
+    isi: str
+    foto: str
+
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+
 # Fungsi untuk menghubungkan ke database SQLite
 def connect_db():
     try:
@@ -414,7 +425,7 @@ def get_all_notifikasi():
         raise HTTPException(status_code=500, detail="Failed to connect to the database")
     cursor = conn.cursor()
     try:
-        cursor.execute('SELECT * FROM notifikasi')
+        cursor.execute('SELECT * FROM notifikasi ORDER BY time DESC')
         rows = cursor.fetchall()
         if not rows:
             raise HTTPException(status_code=404, detail="No notifikasi found")
@@ -458,3 +469,40 @@ def delete_notifikasi(id_notif: int):
     conn.commit()
     conn.close()
     return {'message': 'Notifikasi deleted successfully'}
+
+# Endpoint untuk mendapatkan semua artikel
+@app.get('/api/artikel')
+def get_all_artikel():
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM artikel')
+    artikel = cursor.fetchall()
+    conn.close()
+    return artikel
+
+# Endpoint untuk mendapatkan detail artikel berdasarkan ID
+@app.get('/api/artikel/{artikel_id}')
+def get_artikel(artikel_id: int):
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM artikel WHERE id_artikel = ?', (artikel_id,))
+    artikel = cursor.fetchone()
+    conn.close()
+    if artikel:
+        return artikel
+    else:
+        raise HTTPException(status_code=404, detail="Artikel not found")
+    
+# Endpoint untuk mendapatkan daftar spesialis
+@app.get('/api/spesialis')
+def get_spesialis():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT DISTINCT spesialis FROM dokter')
+    spesialis_list = cursor.fetchall()
+    conn.close()
+    return [spesialis[0] for spesialis in spesialis_list]

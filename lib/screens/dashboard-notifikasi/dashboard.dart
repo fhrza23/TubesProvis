@@ -11,6 +11,7 @@ import '../../pendaftaraan.dart';
 import 'semua_notifikasi.dart';
 import '../../services/api_service.dart';
 import '../../models/notif.dart';
+import 'package:intl/intl.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -33,15 +34,14 @@ class DashboardPage extends StatefulWidget {
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
-
 class _DashboardPageState extends State<DashboardPage> {
-    late Future<List<Notifikasi>> futureNotifications;
+  late Future<List<Notifikasi>> futureNotifications;
 
-    @override
-    void initState() {
-      super.initState();
-      futureNotifications = ApiService().fetchNotifications();
-    }
+  @override
+  void initState() {
+    super.initState();
+    futureNotifications = ApiService().fetchNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               children: [
                                 Text(snapshot.data![index].subtitle),
                                 Text(
-                                  snapshot.data![index].time,
+                                  formatNotificationTime(snapshot.data![index].time),
                                   style: TextStyle(fontSize: 10),
                                 ),
                               ],
@@ -150,7 +150,23 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
   }
+
+  String formatNotificationTime(String timeString) {
+    DateTime time = DateTime.parse(timeString);
+    Duration difference = DateTime.now().difference(time);
+
+    if (difference.inDays > 0) {
+      return DateFormat.yMMMd().format(time); // Tampilkan tanggal jika lebih dari 1 hari yang lalu
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} jam yang lalu';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} menit yang lalu';
+    } else {
+      return 'Baru saja';
+    }
+  }
 }
+
 
 class CustomCarousel extends StatefulWidget {
   @override
@@ -336,7 +352,7 @@ class ButtonGrid extends StatelessWidget {
                 children: [
                   buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
                   SizedBox(width: 20),
-                  buildButton(Icons.newspaper, 'Artikel &\nBerita', Artikel()),
+                  buildButton(Icons.newspaper, 'Artikel &\nBerita', ArtikelPage()),
                 ],
               ),
             ),

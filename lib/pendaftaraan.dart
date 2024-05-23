@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dashboard.dart';
+import 'screens/dashboard-notifikasi/dashboard.dart';
 import 'status_pemeriksaan.dart';
 
 

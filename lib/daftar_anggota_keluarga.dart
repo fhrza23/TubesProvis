@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dashboard.dart';
+import 'screens/dashboard-notifikasi/dashboard.dart';
 
 String _getImagePath(int index) {
   switch (index) {
