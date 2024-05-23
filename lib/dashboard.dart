@@ -9,6 +9,8 @@ import 'rekam_medis_1.dart';
 import 'artikel_1.dart';
 import 'pendaftaraan.dart';
 import 'semua_notifikasi.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // void main() {
 //   runApp(const MyApp());
@@ -390,3 +392,264 @@ class FooterWidget extends StatelessWidget {
     );
   }
 }
+
+class User {
+  final int id;
+  final String nik;
+  final String nama;
+  final String noHp;
+  final String password;
+  final String tglLahir;
+
+  User({
+    required this.id,
+    required this.nik,
+    required this.nama,
+    required this.noHp,
+    required this.password,
+    required this.tglLahir,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      nik: json['nik'],
+      nama: json['nama'],
+      noHp: json['no_hp'],
+      password: json['password'],
+      tglLahir: json['tgl_lahir'],
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'User List',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: UserListScreen(),
+    );
+  }
+}
+
+class UserListScreen extends StatefulWidget {
+  @override
+  _UserListScreenState createState() => _UserListScreenState();
+}
+
+class _UserListScreenState extends State<UserListScreen> {
+  late List<User> _users = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
+
+  Future<void> fetchUsers() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/users'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = json.decode(response.body);
+      setState(() {
+        _users = responseData.map((json) => User.fromJson(json)).toList();
+      });
+    } else {
+      throw Exception('Failed to load users');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User List'),
+      ),
+      body: _users.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _users.length,
+              itemBuilder: (context, index) {
+                final user = _users[index];
+                return ListTile(
+                  title: Text(user.nama),
+                  subtitle: Text(user.nik),
+                );
+              },
+            ),
+    );
+  }
+}
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+
+// class Dashboard extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text(
+//           'Rawatjalan.id',
+//           style: TextStyle(color: Colors.white, fontFamily: 'Montserrat'),
+//         ),
+//         backgroundColor: const Color.fromRGBO(35, 136, 120, 1),
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.person),
+//             color: Colors.white,
+//             onPressed: () {
+//               // Navigasi ke halaman profil pengguna
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => UserProfile()),
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//       body: ListView(
+//         children: [
+//           SizedBox(height: 20.0),
+//           // Tambahkan widget lainnya di sini
+//           // Contoh: CustomCarousel(),
+//           //        ButtonGrid(context: context),
+//           //        FooterWidget(),
+//           //        dsb...
+//           ElevatedButton(
+//             onPressed: () {
+//               // Navigasi ke halaman daftar pengguna
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => UserListScreen()),
+//               );
+//             },
+//             child: Text('Lihat Daftar Pengguna'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class User {
+//   final int id;
+//   final String nik;
+//   final String nama;
+//   final String password;
+//   final String no_hp;
+//   final String tgl_lahir;
+
+//   User({
+//     required this.id,
+//     required this.nik,
+//     required this.nama,
+//     required this.password,
+//     required this.no_hp,
+//     required this.tgl_lahir,
+//   });
+
+//   factory User.fromJson(Map<String, dynamic> json) {
+//     return User(
+//       id: json['id'],
+//       nik: json['nik'],
+//       nama: json['nama'],
+//       password: json['password'],
+//       no_hp: json['no_hp'],
+//       tgl_lahir: json['tgl_lahir'],
+//     );
+//   }
+// }
+
+// class UserListScreen extends StatefulWidget {
+//   @override
+//   _UserListScreenState createState() => _UserListScreenState();
+// }
+
+// class _UserListScreenState extends State<UserListScreen> {
+//   late List<User> _users = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchUsers();
+//   }
+// Future<void> fetchUsers() async {
+//   final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/users'));
+
+//   if (response.statusCode == 200) {
+//     final List<dynamic> usersData = json.decode(response.body);
+
+//     // Bersihkan daftar pengguna sebelum menambahkan data baru
+//     _users.clear();
+
+//     for (var userData in usersData) {
+//       try {
+//         // Periksa apakah userData adalah List<dynamic> dengan panjang yang sesuai
+//         if (userData is List<dynamic> && userData.length == 6) {
+//           // Gunakan indeks untuk mengakses properti data pengguna
+//           _users.add(User(
+//             id: userData[0],
+//             nik: userData[1],
+//             nama: userData[2],
+//             no_hp: userData[3],
+//             password: userData[4],
+//             tgl_lahir: userData[5],
+//           ));
+//         } else {
+//           // Jika userData tidak sesuai dengan format yang diharapkan, lewati
+//           print('Invalid user data format: $userData');
+//         }
+//       } catch (e) {
+//         // Tangani kesalahan jika terjadi
+//         print('Error parsing user data: $e');
+//       }
+//     }
+
+//     // Setelah semua pengguna ditambahkan, panggil setState untuk memperbarui tampilan
+//     setState(() {});
+//   } else {
+//     throw Exception('Failed to load users');
+//   }
+// }
+
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('User List'),
+//       ),
+//       body: _users.isEmpty
+//           ? Center(child: CircularProgressIndicator())
+//           : ListView.builder(
+//               itemCount: _users.length,
+//               itemBuilder: (context, index) {
+//                 final user = _users[index];
+//                 return ListTile(
+//                   title: Text(user.nama),
+//                   subtitle: Text(user.nik),
+//                 );
+//               },
+//             ),
+//     );
+//   }
+// }
+
+// class UserProfile extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('User Profile'),
+//       ),
+//       body: Center(
+//         child: Text('Ini adalah halaman profil pengguna'),
+//       ),
+//     );
+//   }
+// }

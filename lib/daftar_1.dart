@@ -122,12 +122,26 @@
 // }
 // }
 import 'package:flutter/material.dart';
-import 'daftar_2.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// import 'package:flutter_recaptcha_v2/flutter_recaptcha_v2.dart';
+import 'daftar_2.dart';
+import 'model/daftar_model.dart';
 
-class DaftarPage extends StatefulWidget {  
+class UserData extends ChangeNotifier {
+  String nik = '';
+  String nama = '';
+  String tanggalLahir = '';
+
+  void setUserData(String newNik, String newNama, String newTanggalLahir) {
+    nik = newNik;
+    nama = newNama;
+    tanggalLahir = newTanggalLahir;
+    notifyListeners();
+  }
+}
+
+class DaftarPage extends StatefulWidget {
   @override
   _DaftarPageState createState() => _DaftarPageState();
 }
@@ -135,8 +149,6 @@ class DaftarPage extends StatefulWidget {
 class _DaftarPageState extends State<DaftarPage> {
   TextEditingController nikController = TextEditingController();
   TextEditingController namaController = TextEditingController();
-  TextEditingController noHpController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -148,9 +160,47 @@ class _DaftarPageState extends State<DaftarPage> {
     );
 
     if (selectedDate != null) {
-      setState(() {
-        birthDateController.text = "${selectedDate.toLocal()}".split(' ')[0]; // Format tanggal ke yyyy-mm-dd
-      });
+      birthDateController.text = "${selectedDate.toLocal()}".split(' ')[0]; // Format tanggal ke yyyy-mm-dd
+    }
+  }
+
+  Future<bool> _checkNIK(String nik) async {
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8000/api/check_nik'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'nik': nik}),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      return responseData['message'] == 'NIK is available';
+    } else {
+      throw Exception('Failed to check NIK');
+    }
+  }
+
+  void _verifyData(BuildContext context) async {
+    String nik = nikController.text;
+
+    try {
+      bool isAvailable = await _checkNIK(nik);
+      if (isAvailable) {
+        // NIK is available, navigate to DaftarPWPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DaftarPWPage()),
+        );
+      } else {
+        // NIK is already used, show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('NIK sudah digunakan.')),
+        );
+      }
+    } catch (e) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memverifikasi NIK.')),
+      );
     }
   }
 
@@ -193,13 +243,12 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(height: 60),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 400, 
+                    maxWidth: 400,
                   ),
                   child: TextFormField(
                     controller: nikController,
                     decoration: InputDecoration(
                       labelText: 'Nomor Induk Kependudukkan',
-                      // suffixIcon: Icon(Icons.assignment_ind),
                     ),
                     maxLength: 16,
                   ),
@@ -207,7 +256,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(height: 20),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 400, // Atur lebar maksimum sesuai kebutuhan
+                    maxWidth: 400,
                   ),
                   child: TextFormField(
                     controller: namaController,
@@ -219,7 +268,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(height: 50),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 400, // Atur lebar maksimum sesuai kebutuhan
+                    maxWidth: 400,
                   ),
                   child: TextFormField(
                     controller: birthDateController,
@@ -230,13 +279,13 @@ class _DaftarPageState extends State<DaftarPage> {
                         onPressed: () => _selectDate(context),
                       ),
                     ),
-                    readOnly: true, // Set readOnly untuk mencegah input manual
+                    readOnly: true,
                   ),
                 ),
                 SizedBox(height: 50),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth: 400, // Atur lebar maksimum sesuai kebutuhan
+                    maxWidth: 400,
                   ),
                   child: TextFormField(
                     decoration: InputDecoration(
@@ -246,18 +295,36 @@ class _DaftarPageState extends State<DaftarPage> {
                 ),
                 SizedBox(height: 100),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DaftarPWPage()),
-                    );
+                  onPressed: () async {
+                    String nik = nikController.text;
+                    
+                    try {
+                      bool isAvailable = await _checkNIK(nik);
+                      if (isAvailable) {
+                        // NIK is available, navigate to DaftarPWPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DaftarPWPage()),
+                        );
+                      } else {
+                        // NIK is already used, show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('NIK sudah digunakan.')),
+                        );
+                      }
+                    } catch (e) {
+                      // Handle error
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Gagal memverifikasi NIK.')),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    fixedSize: Size(300, 40), 
+                    fixedSize: Size(300, 40),
                     side: BorderSide(color: Colors.teal, width: 3),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    )
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: Text('Verifikasi Data', style: TextStyle(color: Colors.teal, fontSize: 20)),
                 ),
@@ -269,3 +336,53 @@ class _DaftarPageState extends State<DaftarPage> {
     );
   }
 }
+
+
+
+  // Future<void> _register(BuildContext context) async {
+  //   // Menggunakan provider untuk mendapatkan data pendaftaran
+  //   final daftarModel = Provider.of<DaftarModel>(context, listen: false);
+  //   String nik = daftarModel.nik;
+  //   String nama = daftarModel.nama;
+  //   String tglLahir = daftarModel.birthDate;
+
+  //   var url = 'http://127.0.0.1:8000/api/users';
+  //   var response = await http.post(
+  //     Uri.parse(url),
+  //     headers: {
+  //       'Content-Type': 'application/json', // Atur header Content-Type sebagai application/json
+  //     },
+  //     body: jsonEncode({ // Encode data dalam format JSON
+  //       'nik': nik,
+  //       'nama': nama,
+  //       'tgl_lahir': tglLahir,
+  //     }),
+  //   );
+
+  //   if (response.statusCode == 201) {
+  //     // Berhasil mendaftar
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => DaftarPWPage(nik: nik)),
+  //     );
+  //   } else {
+  //     // Gagal mendaftar, menampilkan pesan kesalahan
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text("Gagal Mendaftar"),
+  //           content: Text("Terjadi kesalahan saat mendaftar. Silakan coba lagi."),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //               child: Text("OK"),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
