@@ -33,6 +33,7 @@ class Dokter(BaseModel):
     alumni: str
     pengalaman: str
     nomor_str: int
+    foto_dokter: str
     
     class Config:
         orm_mode = True
