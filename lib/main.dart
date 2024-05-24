@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LoginModel()),
         ChangeNotifierProvider(create: (_) => DaftarModel()),
+        ChangeNotifierProvider(create: (_) => DokterProvider()),
         Provider(create: (_) => UserService()),
       ],
       child: MaterialApp(
