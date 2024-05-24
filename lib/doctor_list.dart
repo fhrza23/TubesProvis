@@ -1,63 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'provider/dokter_provider.dart';
+import 'model/dokter.dart';
 import 'dashboard.dart';
 
-String _getImagePath(int index) {
-  switch (index) {
-    case 0:
-      return 'images/doctor1.jpg';
-    case 1:
-      return 'images/doctor2.jpg';
-    case 2:
-      return 'images/doctor3.jpg';
-    default:
-      return '';
-  }
-}
+// String _getImagePath(int index) {
+//   switch (index) {
+//     case 0:
+//       return 'images/doctor1.jpg';
+//     case 1:
+//       return 'images/doctor2.jpg';
+//     case 2:
+//       return 'images/doctor3.jpg';
+//     default:
+//       return '';
+//   }
+// }
 
-String _getName(int index) {
-  switch (index) {
-    case 0:
-      return 'dr. Indra Cahya, Sp.THT';
-    case 1:
-      return 'Dita Anggraini, A.Md.Fis';
-    case 2:
-      return 'dr. Tri Handoyo, Sp.M';
-    default:
-      return ''; 
-  }
-}
+// String _getName(int index) {
+//   switch (index) {
+//     case 0:
+//       return 'dr. Indra Cahya, Sp.THT';
+//     case 1:
+//       return 'Dita Anggraini, A.Md.Fis';
+//     case 2:
+//       return 'dr. Tri Handoyo, Sp.M';
+//     default:
+//       return ''; 
+//   } 
+// }
 
-String _getSpecialist(int index) {
-  switch (index) {
-    case 0:
-      return 'Spesialis THT';
-    case 1:
-      return 'Spesialis Fisioterapi';
-    case 2:
-      return 'Spesialis Mata';
-    default:
-      return ''; 
-  }
-}
+// String _getSpecialist(int index) {
+//   switch (index) {
+//     case 0:
+//       return 'Spesialis THT';
+//     case 1:
+//       return 'Spesialis Fisioterapi';
+//     case 2:
+//       return 'Spesialis Mata';
+//     default:
+//       return ''; 
+//   }
+// }
 
-double _getRating(int index) {
-  switch (index) {
-    case 0:
-      return 4.0;
-    case 1:
-      return 3.0;
-    case 2:
-      return 4.5;
-    default:
-      return 0.0; 
-  }
-}
+// double _getRating(int index) {
+//   switch (index) {
+//     case 0:
+//       return 4.0;
+//     case 1:
+//       return 3.0;
+//     case 2:
+//       return 4.5;
+//     default:
+//       return 0.0; 
+//   }
+// }
 
-class DoctorList extends StatelessWidget {
+class DoctorList extends StatefulWidget {
   @override
+  _DoctorListState createState() => _DoctorListState();
+}
+
+class _DoctorListState extends State<DoctorList> {
+  String? selectedSpesialis;
+  
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<DokterProvider>(context, listen: false).fetchDokter();
+    Provider.of<DokterProvider>(context, listen: false).fetchSpesialis();
+  }
+
   Widget build(BuildContext context) {
+    final dokterProvider = Provider.of<DokterProvider>(context);
+    final spesialisList = dokterProvider.spesialisList;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal, 
@@ -143,18 +162,17 @@ class DoctorList extends StatelessWidget {
                     child: Center(
                       child: DropdownButton<String>(
                         dropdownColor: Color(0xFF00897B),
-                        items: <String>['Bedah', 'Anak', 'THT', 'Mata', 'Saraf', 'Gigi', 'Fisioterapi', 'Penyakit Dalam']
-                            .map((String value) {
+                        value: selectedSpesialis,
+                        items: spesialisList.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: Text(value, style: TextStyle(color: Colors.white)),
                           );
                         }).toList(),
                         onChanged: (String? value) {
-                          
+                          setState(() {
+                            selectedSpesialis = value;
+                          });
                         },
                         hint: Text(
                           'Spesialis',
@@ -210,8 +228,9 @@ class DoctorList extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 3, 
+              itemCount: dokterProvider.dokterList.length,
               itemBuilder: (context, index) {
+                Dokter dokter = dokterProvider.dokterList[index];
                 return Column(
                   children: [
                     SizedBox(height: 20),
@@ -226,7 +245,7 @@ class DoctorList extends StatelessWidget {
                             ),
                             child: CircleAvatar(
                               radius: 70,
-                              backgroundImage: AssetImage(_getImagePath(index)),
+                              backgroundImage: NetworkImage(dokter.foto_dokter),
                             ),
                           ),
                         ),
@@ -238,20 +257,20 @@ class DoctorList extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _getName(index),
+                                  dokter.nama_dokter,
                                   style: GoogleFonts.montserrat(
                                     fontSize: 20,
                                   ),
                                 ),
                                 Text(
-                                  _getSpecialist(index),
+                                  'Spesialis ${dokter.spesialis}',
                                   style: GoogleFonts.hindMadurai(
                                     fontSize: 17,
                                     color: Color(0xFF00897B),
                                   ),
                                 ),
                                 RatingBar(
-                                  initialRating: _getRating(index),
+                                  initialRating: dokter.rating,
                                   allowHalfRating: true,
                                   itemSize: 23,
                                   itemCount: 5,

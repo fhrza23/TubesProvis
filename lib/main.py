@@ -483,3 +483,13 @@ def get_artikel(artikel_id: int):
         return artikel
     else:
         raise HTTPException(status_code=404, detail="Artikel not found")
+    
+# Endpoint untuk mendapatkan daftar spesialis
+@app.get('/api/spesialis')
+def get_spesialis():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT DISTINCT spesialis FROM dokter')
+    spesialis_list = cursor.fetchall()
+    conn.close()
+    return [spesialis[0] for spesialis in spesialis_list]
