@@ -456,3 +456,30 @@ def delete_notifikasi(id_notif: int):
     conn.commit()
     conn.close()
     return {'message': 'Notifikasi deleted successfully'}
+
+# Endpoint untuk mendapatkan semua artikel
+@app.get('/api/artikel')
+def get_all_artikel():
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM artikel')
+    artikel = cursor.fetchall()
+    conn.close()
+    return artikel
+
+# Endpoint untuk mendapatkan detail artikel berdasarkan ID
+@app.get('/api/artikel/{artikel_id}')
+def get_artikel(artikel_id: int):
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM artikel WHERE id_artikel = ?', (artikel_id,))
+    artikel = cursor.fetchone()
+    conn.close()
+    if artikel:
+        return artikel
+    else:
+        raise HTTPException(status_code=404, detail="Artikel not found")

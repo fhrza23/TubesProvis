@@ -339,7 +339,7 @@ class ButtonGrid extends StatelessWidget {
                 children: [
                   buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
                   SizedBox(width: 20),
-                  buildButton(Icons.newspaper, 'Artikel &\nBerita', Artikel()),
+                  buildButton(Icons.newspaper, 'Artikel &\nBerita', ArtikelPage()),
                 ],
               ),
             ),
