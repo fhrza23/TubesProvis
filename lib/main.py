@@ -240,6 +240,17 @@ class Notifikasi(BaseModel):
         orm_mode = True
         validate_assignment = True
 
+# Model untuk data artikel
+class Artikel(BaseModel):
+    judul: str
+    tanggal: str
+    isi: str
+    foto: str
+
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+
 # Fungsi untuk menghubungkan ke database SQLite
 def connect_db():
     try:
