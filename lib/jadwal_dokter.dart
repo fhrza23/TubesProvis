@@ -315,7 +315,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider/dokter_provider.dart';
 import 'model/dokter.dart';
-import 'dashboard.dart';
+import 'screens/dashboard-notifikasi/dashboard.dart';
 
 class JadwalDokter extends StatefulWidget {
   @override
