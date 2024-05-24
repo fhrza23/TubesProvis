@@ -45,30 +45,56 @@ import 'package:provider/provider.dart';
 import 'service/user_service.dart';
 import 'model/daftar_model.dart';
 import 'model/login_model.dart';
+import 'provider/dokter_provider.dart';
 import 'daftar_1.dart';
 import 'kontentengah.dart';
 
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => LoginModel()),
+//         ChangeNotifierProvider(create: (_) => DaftarModel()),
+//         Provider(create: (_) => UserService()),
+//       ],
+//       child: MaterialApp(
+//         title: 'Rawatjalan.id',
+//         theme: ThemeData(
+//           primarySwatch: Colors.teal,
+//         ),
+//         home: HomeScreen(),
+//       ),
+//     );
+//   }
+// }
+
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DokterProvider()),
+        ChangeNotifierProvider(create: (_) => LoginModel()),
+        ChangeNotifierProvider(create: (_) => DaftarModel()),
+        Provider(create: (_) => UserService()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => LoginModel()),
-        ChangeNotifierProvider(create: (_) => DaftarModel()),
-        ChangeNotifierProvider(create: (_) => DokterProvider()),
-        Provider(create: (_) => UserService()),
-      ],
-      child: MaterialApp(
-        title: 'Rawatjalan.id',
-        theme: ThemeData(
-          primarySwatch: Colors.teal,
-        ),
-        home: HomeScreen(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(), // Mengubah home menjadi HomeScreen
+      // home: JadwalDokter(), // Mengubah home menjadi JadwalDokter
+      // home: DoctorList(),
     );
   }
 }
