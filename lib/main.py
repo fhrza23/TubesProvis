@@ -423,7 +423,7 @@ def get_all_notifikasi():
         raise HTTPException(status_code=500, detail="Failed to connect to the database")
     cursor = conn.cursor()
     try:
-        cursor.execute('SELECT * FROM notifikasi')
+        cursor.execute('SELECT * FROM notifikasi ORDER BY time DESC')
         rows = cursor.fetchall()
         if not rows:
             raise HTTPException(status_code=404, detail="No notifikasi found")
