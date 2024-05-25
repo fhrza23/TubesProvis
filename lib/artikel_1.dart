@@ -109,7 +109,7 @@ Future<void> fetchArtikelById(int id) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 0, 112, 99),
+        backgroundColor: Color.fromRGBO(35, 136, 120, 1),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
@@ -217,7 +217,7 @@ Future<void> fetchArtikelById(int id) async {
               child: SizedBox(
                 height: 130.0,
                 child: BottomAppBar(
-                  color: Color.fromARGB(255, 0, 112, 99),
+                  color: Color.fromRGBO(35, 136, 120, 1),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
