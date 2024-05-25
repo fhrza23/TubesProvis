@@ -1,158 +1,3 @@
-# from fastapi import FastAPI, HTTPException
-# from pydantic import BaseModel
-# import sqlite3
-# from fastapi.middleware.cors import CORSMiddleware
-
-# app = FastAPI()
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Atur sesuai dengan kebutuhan Anda
-#     allow_credentials=True,
-#     allow_methods=["POST", "OPTIONS", "GET"],  # Izinkan metode POST, OPTIONS, dan GET
-#     allow_headers=["*"],
-# )
-
-# # Model untuk data pengguna
-# class RegisterUser(BaseModel):
-#     nik: str
-#     nama: str
-#     no_hp: str
-#     password: str
-#     tgl_lahir: str
-
-#     class Config:
-#         orm_mode = True
-#         validate_assignment = True
-
-# # Model untuk login pengguna
-# class LoginUser(BaseModel):
-#     nik: str
-#     password: str
-    
-#     class Config:
-#         orm_mode = True
-#         validate_assignment = True
-        
-# # Model untuk memeriksa NIK
-# class CheckNIK(BaseModel):
-#     nik: str
-
-#     class Config:
-#         orm_mode = True
-#         validate_assignment = True
-
-# # Fungsi untuk menghubungkan ke database SQLite
-# def connect_db():
-#     try:
-#         conn = sqlite3.connect('db_provis.db')
-#         return conn
-#     except Exception as e:
-#         print("Error connecting to database:", e)
-#         return None
-
-# # Endpoint untuk membuat pengguna baru
-# @app.post('/api/users', status_code=201)
-# def create_user(user: RegisterUser):
-#     conn = connect_db()
-#     cursor = conn.cursor()
-#     cursor.execute('INSERT INTO users (nik, nama, no_hp, password, tgl_lahir) VALUES (?, ?, ?, ?, ?)',
-#                    (user.nik, user.nama, user.no_hp, user.password, user.tgl_lahir))
-#     conn.commit()
-#     conn.close()
-#     return {'message': 'User created successfully'}
-
-# # Endpoint untuk mendapatkan semua pengguna
-# @app.get('/api/users')
-# def get_all_users():
-#     conn = connect_db()
-#     if not conn:
-#         raise HTTPException(status_code=500, detail="Failed to connect to database")
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM users')
-#     users = cursor.fetchall()
-#     conn.close()
-#     return users
-
-# # Endpoint untuk mendapatkan detail pengguna berdasarkan ID
-# @app.get('/api/users/{user_id}')
-# def get_user(user_id: int):
-#     conn = connect_db()
-#     if not conn:
-#         raise HTTPException(status_code=500, detail="Failed to connect to database")
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
-#     user = cursor.fetchone()
-#     conn.close()
-#     if user:
-#         return user
-#     else:
-#         raise HTTPException(status_code=404, detail="User not found")
-
-# # Endpoint untuk login
-# @app.post('/api/login')
-# def login(user: LoginUser):
-#     try:
-#         # Proses autentikasi di sini
-#         conn = connect_db()
-#         if not conn:
-#             raise HTTPException(status_code=500, detail="Failed to connect to database")
-#         cursor = conn.cursor()
-#         cursor.execute('SELECT * FROM users WHERE nik = ? AND password = ?', (user.nik, user.password))
-#         print(user.dict())  # Cetak entitas untuk memeriksa formatnya
-#         result = cursor.fetchone()
-#         conn.close()
-
-#         if result:
-#             return {'message': 'Login successful'}
-#         else:
-#             raise HTTPException(status_code=401, detail="Invalid credentials")
-#     except Exception as e:
-#         print(f"Error processing login request: {e}")
-#         raise HTTPException(status_code=500, detail="Internal server error")
-    
-# # Endpoint untuk memeriksa apakah NIK sudah digunakan
-# @app.post('/api/check_nik')
-# def check_nik(nik: CheckNIK):
-#     conn = connect_db()
-#     if not conn:
-#         raise HTTPException(status_code=500, detail="Failed to connect to database")
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM users WHERE nik = ?', (nik.nik,))
-#     user = cursor.fetchone()
-#     conn.close()
-#     if user:
-#         raise HTTPException(status_code=400, detail="NIK already used")
-#     else:
-#         return {'message': 'NIK is available'}
-
-# # Endpoint untuk mendapatkan semua data dokter
-# @app.get('/api/dokter')
-# def get_all_dokter():
-#     conn = connect_db()
-#     if not conn:
-#         raise HTTPException(status_code=500, detail="Failed to connect to database")
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM dokter')
-#     dokter = cursor.fetchall()
-#     conn.close()
-#     return dokter
-
-# # Endpoint untuk mendapatkan detail dokter berdasarkan ID
-# @app.get('/api/dokter/{id_dokter}')
-# def get_dokter(id_dokter: int):
-#     conn = connect_db()
-#     if not conn:
-#         raise HTTPException(status_code=500, detail="Failed to connect to database")
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT * FROM dokter WHERE id_dokter = ?', (id_dokter,))
-#     dokter = cursor.fetchone()
-#     conn.close()
-    
-#     if dokter:
-#         return dokter
-#     else:
-#         raise HTTPException(status_code=404, detail="Doctor not found")
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 import sqlite3
@@ -247,6 +92,15 @@ class Artikel(BaseModel):
     isi: str
     foto: str
 
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+        
+class Payment(BaseModel):
+    id_payment: int
+    amount: int
+    ewallet: str
+    
     class Config:
         orm_mode = True
         validate_assignment = True
@@ -381,6 +235,18 @@ def get_dokter(id_dokter: int):
         return dokter
     else:
         raise HTTPException(status_code=404, detail="Doctor not found")
+    
+# GET endpoint untuk mendapatkan daftar dokter berdasarkan spesialis
+@app.get('/api/doctors/{spesialis}', response_model=List[str])
+async def get_doctors_by_spesialis(spesialis: str):
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT name FROM doctors WHERE spesialis = ?', (spesialis,))
+    doctors = cursor.fetchall()
+    conn.close()
+    return [doctor[0] for doctor in doctors]
 
 # Endpoint untuk mengirim OTP
 @app.post('/api/send_otp')
@@ -506,3 +372,34 @@ def get_spesialis():
     spesialis_list = cursor.fetchall()
     conn.close()
     return [spesialis[0] for spesialis in spesialis_list]
+
+
+@app.post('/api/payments', status_code=201)
+def create_payment(payment: Payment):
+    try:
+        conn = connect_db()
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO payment (id_payment, amount, ewallet) VALUES (?, ?, ?)', 
+                       (payment.id_payment, payment.amount, payment.ewallet))
+        conn.commit()
+        conn.close()
+        return {'message': 'Payment created successfully'}
+    except Exception as e:
+        print(f"Error creating payment: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error occurred")
+
+@app.get('/api/payments', response_model=List[Payment])
+def get_payments():
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT id_payment, amount, ewallet FROM payment')
+        payments = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Error fetching payments: {e}")
+        raise HTTPException(status_code=400, detail=f"Error fetching payments: {e}")
+    finally:
+        conn.close()
+    return [Payment(id_payment=row[0], amount=row[1], ewallet=row[2]) for row in payments]
