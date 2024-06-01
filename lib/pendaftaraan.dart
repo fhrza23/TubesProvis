@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
-import 'status_pemeriksaan.dart';
+import 'qr_booking.dart';
+// import 'status_pemeriksaan.dart';
 
 
 // void main() {
 //   runApp(MyApp());
 // }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Laman Pendaftaran',
-      theme: ThemeData(
-        primaryColor: Colors.teal,
-        fontFamily: 'Montserrat',
-      ),
-      home: AppointmentRegistrationPage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Laman Pendaftaran',
+//       theme: ThemeData(
+//         primaryColor: Colors.teal,
+//         fontFamily: 'Montserrat',
+//       ),
+//       home: AppointmentRegistrationPage(),
+//     );
+//   }
+// }
 
 class AppointmentRegistrationPage extends StatefulWidget {
   @override
