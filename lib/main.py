@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel
-import sqlite3
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-from random import randint
-from datetime import datetime
-from typing import List
+from pydantic import BaseModel
+from typing import List, Optional
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+import sqlite3
+from datetime import datetime, timedelta
 
 app = FastAPI()
 
@@ -16,6 +18,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+SECRET_KEY = "kelompok_tujuh"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 90
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    nik: Optional[str] = None
+    
 # Model untuk data pengguna
 class RegisterUser(BaseModel):
     nik: str
@@ -114,6 +129,43 @@ def connect_db():
         print("Error connecting to database:", e)
         return None
 
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        nik: str = payload.get("sub")
+        if nik is None:
+            raise credentials_exception
+        token_data = TokenData(nik=nik)
+    except JWTError:
+        raise credentials_exception
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE nik = ?', (token_data.nik,))
+    user = cursor.fetchone()
+    conn.close()
+    if user is None:
+        raise credentials_exception
+    return user
+
 # Endpoint untuk membuat pengguna baru
 @app.post('/api/users', status_code=201)
 def create_user(user: RegisterUser):
@@ -139,7 +191,7 @@ def get_all_users():
 
 # Endpoint untuk mendapatkan detail pengguna berdasarkan ID
 @app.get('/api/users/{user_id}')
-def get_user(user_id: int):
+def get_user(user_id: int, current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -153,30 +205,28 @@ def get_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
 
 # Endpoint untuk login
-@app.post('/api/login')
+@app.post('/api/login', response_model=Token)
 def login(user: LoginUser):
-    try:
-        # Proses autentikasi di sini
-        conn = connect_db()
-        if not conn:
-            raise HTTPException(status_code=500, detail="Failed to connect to database")
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE nik = ? AND password = ?', (user.nik, user.password))
-        print(user.dict())  # Cetak entitas untuk memeriksa formatnya
-        result = cursor.fetchone()
-        conn.close()
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE nik = ? AND password = ?', (user.nik, user.password))
+    result = cursor.fetchone()
+    conn.close()
 
-        if result:
-            return {'message': 'Login successful'}
-        else:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
-    except Exception as e:
-        print(f"Error processing login request: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error")
-    
+    if result:
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user.nik}, expires_delta=access_token_expires
+        )
+        return {"access_token": access_token, "token_type": "bearer"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
 # Endpoint untuk memeriksa apakah NIK sudah digunakan
 @app.post('/api/check_nik')
-def check_nik(nik: CheckNIK):
+def check_nik(nik: CheckNIK, current_user: RegisterUser = Depends(get_current_user)):
     if not nik.nik:
         raise HTTPException(status_code=400, detail="NIK cannot be null or empty")
     conn = connect_db()
@@ -192,8 +242,7 @@ def check_nik(nik: CheckNIK):
         return {'message': 'NIK is available'}
     
 # Endpoint untuk memverifikasi OTP
-@app.post('/api/verify_otp')
-def verify_otp(data: VerifyOTP):
+def verify_otp(data: VerifyOTP, current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -210,7 +259,7 @@ def verify_otp(data: VerifyOTP):
 
 # Endpoint untuk mendapatkan semua data dokter
 @app.get('/api/dokter')
-def get_all_dokter():
+def get_all_dokter(current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -222,7 +271,7 @@ def get_all_dokter():
 
 # Endpoint untuk mendapatkan detail dokter berdasarkan ID
 @app.get('/api/dokter/{id_dokter}')
-def get_dokter(id_dokter: int):
+def get_dokter(id_dokter: int, current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -238,7 +287,7 @@ def get_dokter(id_dokter: int):
     
 # GET endpoint untuk mendapatkan daftar dokter berdasarkan spesialis
 @app.get('/api/doctors/{spesialis}', response_model=List[str])
-async def get_doctors_by_spesialis(spesialis: str):
+async def get_doctors_by_spesialis(spesialis: str, current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -285,7 +334,7 @@ def create_notifikasi(notifikasi: Notifikasi):
 
 # Endpoint untuk mendapatkan detail notifikasi berdasarkan ID
 @app.get('/api/notifikasi', response_model=List[Notifikasi])
-def get_all_notifikasi():
+def get_all_notifikasi(current_user: RegisterUser = Depends(get_current_user)):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to the database")

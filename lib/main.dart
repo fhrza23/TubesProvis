@@ -4,7 +4,6 @@ import 'service/user_service.dart';
 import 'model/daftar_model.dart';
 import 'model/login_model.dart';
 import 'provider/dokter_provider.dart';
-import 'daftar_1.dart';
 import 'kontentengah.dart';
 
 void main() {
