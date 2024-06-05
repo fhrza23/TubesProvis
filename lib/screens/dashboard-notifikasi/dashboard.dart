@@ -6,7 +6,7 @@ import '../../jadwal_dokter.dart';
 import '../../doctor_list.dart';
 import '../../user_profile.dart';
 import '../../rekam_medis_1.dart';
-import 'artikel/artikel_1.dart';
+import '../artikel/artikel_1.dart';
 import '../../pendaftaraan.dart';
 import 'semua_notifikasi.dart';
 import '../../services/api_service.dart';

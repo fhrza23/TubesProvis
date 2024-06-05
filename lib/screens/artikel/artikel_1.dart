@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../models/artikel.dart';
-import '../../../../../services/artikel_service.dart';
+import '../../../../models/artikel.dart';
+import '../../../../services/artikel_service.dart';
 import 'artikel_2.dart';
 
 class ArtikelPage extends StatefulWidget {
