@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider/dokter_provider.dart';
-import 'model/dokter.dart';
+import 'models/dokter.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
 
 // String _getImagePath(int index) {

@@ -1,33 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../../../../models/artikel.dart';
+import '../../../../services/artikel_service.dart';
 import 'artikel_2.dart';
-
-class Artikel {
-  final int id;
-  final String judul;
-  final String tanggal;
-  final String isi;
-  final String foto;
-
-  Artikel({
-    required this.id,
-    required this.judul,
-    required this.tanggal,
-    required this.isi,
-    required this.foto,
-  });
-
-  factory Artikel.fromJson(Map<String, dynamic> json) {
-    return Artikel(
-      id: json['id'],
-      judul: json['judul'],
-      tanggal: json['tanggal'],
-      isi: json['isi'],
-      foto: json['foto'],
-    );
-  }
-}
 
 class ArtikelPage extends StatefulWidget {
   @override
@@ -36,6 +10,7 @@ class ArtikelPage extends StatefulWidget {
 
 class _ArtikelPageState extends State<ArtikelPage> {
   late List<Artikel> _Artikels = [];
+  final ArtikelService _artikelService = ArtikelService();
 
   @override
   void initState() {
@@ -44,64 +19,25 @@ class _ArtikelPageState extends State<ArtikelPage> {
   }
 
   Future<void> fetchArtikels() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/artikel'));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> ArtikelsData = json.decode(response.body);
-
-      _Artikels.clear();
-
-      for (var ArtikelData in ArtikelsData) {
-        try {
-          if (ArtikelData is List<dynamic> && ArtikelData.length == 5) {
-            _Artikels.add(Artikel(
-              id: ArtikelData[0],
-              judul: ArtikelData[1],
-              tanggal: ArtikelData[2],
-              isi: ArtikelData[3],
-              foto: ArtikelData[4],
-            ));
-          } else {
-            print('Invalid Artikel data format: $ArtikelData');
-          }
-        } catch (e) {
-          print('Error parsing Artikel data: $e');
-        }
-      }
-
-      setState(() {});
-    } else {
-      throw Exception('Failed to load Artikels');
+    try {
+      final artikels = await _artikelService.fetchArtikels();
+      setState(() {
+        _Artikels = artikels;
+      });
+    } catch (e) {
+      print('Failed to fetch Artikels: $e');
     }
   }
 
-Future<void> fetchArtikelById(int id) async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/artikel/$id'));
-
-    if (response.statusCode == 200) {
-      final ArtikelData = json.decode(response.body);
-
-      try {
-        if (ArtikelData is List<dynamic> && ArtikelData.length == 5) {
-          Artikel artikel = Artikel(
-            id: ArtikelData[0],
-            judul: ArtikelData[1],
-            tanggal: ArtikelData[2],
-            isi: ArtikelData[3],
-            foto: ArtikelData[4],
-          );
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ArtikelDetailPage(artikel: artikel)),
-          );
-        } else {
-          print('Invalid Artikel data format: $ArtikelData');
-        }
-      } catch (e) {
-        print('Error parsing Artikel data: $e');
-      }
-    } else {
-      throw Exception('Failed to load Artikel by ID');
+  Future<void> fetchArtikelById(int id) async {
+    try {
+      final artikel = await _artikelService.fetchArtikelById(id);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ArtikelDetailPage(artikel: artikel)),
+      );
+    } catch (e) {
+      print('Failed to fetch Artikel by ID: $e');
     }
   }
 
@@ -212,68 +148,68 @@ Future<void> fetchArtikelById(int id) async {
                 ),
         ],
       ),
-              bottomNavigationBar: PreferredSize(
-              preferredSize: Size.fromHeight(130.0),
-              child: SizedBox(
-                height: 130.0,
-                child: BottomAppBar(
-                  color: Color.fromRGBO(35, 136, 120, 1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.location_on, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              'Jalan Rumah Sehat Nomor 01',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
+      bottomNavigationBar: PreferredSize(
+        preferredSize: Size.fromHeight(130.0),
+        child: SizedBox(
+          height: 130.0,
+          child: BottomAppBar(
+            color: Color.fromRGBO(35, 136, 120, 1),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.location_on, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Jalan Rumah Sehat Nomor 01',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.email, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              'rawatjalan@gmail.com',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.phone, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              '021-12345678',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.email, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'rawatjalan@gmail.com',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.phone, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        '021-12345678',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          );
-        }
-      }
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class ArtikelListScreen extends StatelessWidget {
   final List<Artikel> Artikels;

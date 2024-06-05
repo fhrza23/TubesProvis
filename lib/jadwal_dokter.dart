@@ -314,7 +314,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'provider/dokter_provider.dart';
-import 'model/dokter.dart';
+import 'models/dokter.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
 
 class JadwalDokter extends StatefulWidget {

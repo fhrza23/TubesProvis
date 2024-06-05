@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_application_2/jadwal_dokter.dart';
 import 'package:http/http.dart' as http;
-import '../model/dokter.dart';
+import '../models/dokter.dart';
 import 'dart:convert';
 
 class DokterProvider with ChangeNotifier {

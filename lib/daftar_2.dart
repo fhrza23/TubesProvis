@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'daftar_3.dart';
-import 'model/daftar_model.dart';
+import 'models/daftar_model.dart';
 
 class DaftarPWPage extends StatefulWidget {
   @override
