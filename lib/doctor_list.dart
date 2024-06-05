@@ -6,58 +6,6 @@ import 'provider/dokter_provider.dart';
 import 'models/dokter.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
 
-// String _getImagePath(int index) {
-//   switch (index) {
-//     case 0:
-//       return 'images/doctor1.jpg';
-//     case 1:
-//       return 'images/doctor2.jpg';
-//     case 2:
-//       return 'images/doctor3.jpg';
-//     default:
-//       return '';
-//   }
-// }
-
-// String _getName(int index) {
-//   switch (index) {
-//     case 0:
-//       return 'dr. Indra Cahya, Sp.THT';
-//     case 1:
-//       return 'Dita Anggraini, A.Md.Fis';
-//     case 2:
-//       return 'dr. Tri Handoyo, Sp.M';
-//     default:
-//       return ''; 
-//   } 
-// }
-
-// String _getSpecialist(int index) {
-//   switch (index) {
-//     case 0:
-//       return 'Spesialis THT';
-//     case 1:
-//       return 'Spesialis Fisioterapi';
-//     case 2:
-//       return 'Spesialis Mata';
-//     default:
-//       return ''; 
-//   }
-// }
-
-// double _getRating(int index) {
-//   switch (index) {
-//     case 0:
-//       return 4.0;
-//     case 1:
-//       return 3.0;
-//     case 2:
-//       return 4.5;
-//     default:
-//       return 0.0; 
-//   }
-// }
-
 class DoctorList extends StatefulWidget {
   @override
   _DoctorListState createState() => _DoctorListState();
@@ -132,7 +80,7 @@ class _DoctorListState extends State<DoctorList> {
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 16),
+                        SizedBox(width: 14),
                         Icon(Icons.search, color: Colors.white),
                         SizedBox(width: 8),
                         Expanded(
@@ -146,7 +94,7 @@ class _DoctorListState extends State<DoctorList> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 16),
+                        SizedBox(width: 20),
                       ],
                     ),
                   ),

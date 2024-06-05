@@ -321,7 +321,8 @@ class ButtonGrid extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildButton(Icons.calendar_month, 'Cek Jadwal\nDokter', JadwalDokter()),
+                  buildButton(Icons.newspaper, 'Artikel &\nBerita', ArtikelPage()),
+                  // buildButton(Icons.calendar_month, 'Cek Jadwal\nDokter', JadwalDokter()),
                   SizedBox(width: 20),
                   buildButton(Icons.line_weight_sharp, 'List\nDokter', DoctorList()),
                 ],
@@ -335,7 +336,7 @@ class ButtonGrid extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildButton(Icons.paste, 'Daftar\nSekarang', AppointmentRegistrationPage()),
+                  buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
                   SizedBox(width: 20),
                   buildButton(Icons.access_time, 'Rekam\nMedis', RekamMedis()),
                 ],
@@ -349,9 +350,9 @@ class ButtonGrid extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
-                  SizedBox(width: 20),
-                  buildButton(Icons.newspaper, 'Artikel &\nBerita', ArtikelPage()),
+                  // buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
+                  // SizedBox(width: 20),
+                  buildButton(Icons.paste, 'Daftar\nSekarang', AppointmentRegistrationPage()),
                 ],
               ),
             ),

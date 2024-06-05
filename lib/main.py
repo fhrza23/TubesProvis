@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from random import randint
 import sqlite3
 from datetime import datetime, timedelta
 
@@ -226,7 +227,7 @@ def login(user: LoginUser):
 
 # Endpoint untuk memeriksa apakah NIK sudah digunakan
 @app.post('/api/check_nik')
-def check_nik(nik: CheckNIK, current_user: RegisterUser = Depends(get_current_user)):
+def check_nik(nik: CheckNIK):
     if not nik.nik:
         raise HTTPException(status_code=400, detail="NIK cannot be null or empty")
     conn = connect_db()
@@ -242,7 +243,8 @@ def check_nik(nik: CheckNIK, current_user: RegisterUser = Depends(get_current_us
         return {'message': 'NIK is available'}
     
 # Endpoint untuk memverifikasi OTP
-def verify_otp(data: VerifyOTP, current_user: RegisterUser = Depends(get_current_user)):
+@app.post('/api/verify_otp')
+def verify_otp(data: VerifyOTP):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
