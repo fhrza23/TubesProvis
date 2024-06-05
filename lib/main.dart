@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'service/user_service.dart';
-import 'model/daftar_model.dart';
-import 'model/login_model.dart';
+import 'services/user_service.dart';
+import 'models/daftar_model.dart';
+import 'models/login_model.dart';
 import 'provider/dokter_provider.dart';
 import 'kontentengah.dart';
 

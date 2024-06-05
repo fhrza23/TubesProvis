@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'model/daftar_model.dart';
+import 'models/daftar_model.dart';
 import 'daftar_2.dart';
 
 class DaftarPage extends StatefulWidget {
