@@ -259,7 +259,7 @@ def verify_otp(data: VerifyOTP, current_user: RegisterUser = Depends(get_current
 
 # Endpoint untuk mendapatkan semua data dokter
 @app.get('/api/dokter')
-def get_all_dokter(current_user: RegisterUser = Depends(get_current_user)):
+def get_all_dokter():
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -271,7 +271,7 @@ def get_all_dokter(current_user: RegisterUser = Depends(get_current_user)):
 
 # Endpoint untuk mendapatkan detail dokter berdasarkan ID
 @app.get('/api/dokter/{id_dokter}')
-def get_dokter(id_dokter: int, current_user: RegisterUser = Depends(get_current_user)):
+def get_dokter(id_dokter: int):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
@@ -287,7 +287,7 @@ def get_dokter(id_dokter: int, current_user: RegisterUser = Depends(get_current_
     
 # GET endpoint untuk mendapatkan daftar dokter berdasarkan spesialis
 @app.get('/api/doctors/{spesialis}', response_model=List[str])
-async def get_doctors_by_spesialis(spesialis: str, current_user: RegisterUser = Depends(get_current_user)):
+async def get_doctors_by_spesialis(spesialis: str):
     conn = connect_db()
     if not conn:
         raise HTTPException(status_code=500, detail="Failed to connect to database")
