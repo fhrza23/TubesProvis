@@ -4,7 +4,7 @@ import 'hasil_pemeriksaan.dart';
 
 class RekamMedisSarahPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 0, 112, 99),

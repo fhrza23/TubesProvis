@@ -167,7 +167,6 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-
 class CustomCarousel extends StatefulWidget {
   @override
   _CustomCarouselState createState() => _CustomCarouselState();
