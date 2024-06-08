@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/artikel.dart';
+import '../../models/artikel_model.dart';
 
 class ArtikelDetailPage extends StatefulWidget {
   final Artikel artikel;
@@ -125,64 +125,64 @@ class _ArtikelDetailPageState extends State<ArtikelDetailPage> {
           ],
         ),
       bottomNavigationBar: PreferredSize(
-              preferredSize: Size.fromHeight(130.0),
-              child: SizedBox(
-                height: 130.0,
-                child: BottomAppBar(
-                  color: Color.fromRGBO(35, 136, 120, 1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.location_on, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              'Jalan Rumah Sehat Nomor 01',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
+        preferredSize: Size.fromHeight(130.0),
+        child: SizedBox(
+          height: 130.0,
+          child: BottomAppBar(
+            color: Color.fromRGBO(35, 136, 120, 1),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.location_on, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Jalan Rumah Sehat Nomor 01',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.email, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              'rawatjalan@gmail.com',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.phone, color: Colors.white),
-                            SizedBox(width: 8),
-                            Text(
-                              '021-12345678',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.email, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'rawatjalan@gmail.com',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.phone, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        '021-12345678',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }

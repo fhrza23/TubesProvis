@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'rekam_medis_sarah.dart'; // Import halaman rekam medis pasien Sarah
+import 'rekam_medis_sarah.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
 
 class MyApp extends StatelessWidget {
   @override

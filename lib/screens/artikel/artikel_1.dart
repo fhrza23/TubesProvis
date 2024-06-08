@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/artikel.dart';
+import '../../models/artikel_model.dart';
 import '../../../../services/artikel_service.dart';
 import 'artikel_2.dart';
 
@@ -9,7 +9,7 @@ class ArtikelPage extends StatefulWidget {
 }
 
 class _ArtikelPageState extends State<ArtikelPage> {
-  late List<Artikel> _Artikels = [];
+  late List<Artikel> _artikels = [];
   final ArtikelService _artikelService = ArtikelService();
 
   @override
@@ -19,25 +19,29 @@ class _ArtikelPageState extends State<ArtikelPage> {
   }
 
   Future<void> fetchArtikels() async {
+    print('fetchArtikels called');
     try {
       final artikels = await _artikelService.fetchArtikels();
+      print('fetchArtikels: Articles fetched: ${artikels.length}');
       setState(() {
-        _Artikels = artikels;
+        _artikels = artikels;
       });
     } catch (e) {
-      print('Failed to fetch Artikels: $e');
+      print('fetchArtikels: Failed to fetch Artikels: $e');
     }
   }
 
   Future<void> fetchArtikelById(int id) async {
+    print('fetchArtikelById called with id: $id');
     try {
       final artikel = await _artikelService.fetchArtikelById(id);
+      print('fetchArtikelById: Article fetched: ${artikel.judul}');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ArtikelDetailPage(artikel: artikel)),
       );
     } catch (e) {
-      print('Failed to fetch Artikel by ID: $e');
+      print('fetchArtikelById: Failed to fetch Artikel by ID: $e');
     }
   }
 
@@ -81,17 +85,17 @@ class _ArtikelPageState extends State<ArtikelPage> {
           SizedBox(height: 16),
           Divider(color: Colors.grey, indent: 20, endIndent: 20),
           SizedBox(height: 5),
-          _Artikels.isEmpty
+          _artikels.isEmpty
               ? Center(child: CircularProgressIndicator())
               : Expanded(
                   child: ListView.builder(
-                    itemCount: _Artikels.length,
+                    itemCount: _artikels.length,
                     itemBuilder: (context, index) {
-                      final Artikel = _Artikels[index];
+                      final artikel = _artikels[index];
                       return InkWell(
                         onTap: () {
                           // Ketika artikel diklik, ambil detail artikel berdasarkan ID
-                          fetchArtikelById(Artikel.id);
+                          fetchArtikelById(artikel.id);
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -110,8 +114,8 @@ class _ArtikelPageState extends State<ArtikelPage> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.asset(
-                                      Artikel.foto,
+                                    child: Image.network(
+                                      artikel.foto,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -125,7 +129,7 @@ class _ArtikelPageState extends State<ArtikelPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      Artikel.judul,
+                                      artikel.judul,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -133,7 +137,7 @@ class _ArtikelPageState extends State<ArtikelPage> {
                                     ),
                                     SizedBox(height: 8),
                                     Text(
-                                      Artikel.tanggal,
+                                      artikel.tanggal,
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ],
@@ -209,35 +213,4 @@ class _ArtikelPageState extends State<ArtikelPage> {
       ),
     );
   }
-}
-
-class ArtikelListScreen extends StatelessWidget {
-  final List<Artikel> Artikels;
-
-  ArtikelListScreen({required this.Artikels});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Artikel List'),
-      ),
-      body: ListView.builder(
-        itemCount: Artikels.length,
-        itemBuilder: (context, index) {
-          final Artikel = Artikels[index];
-          return ListTile(
-            title: Text(Artikel.judul),
-            subtitle: Text(Artikel.tanggal),
-          );
-        },
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ArtikelPage(),
-  ));
 }
