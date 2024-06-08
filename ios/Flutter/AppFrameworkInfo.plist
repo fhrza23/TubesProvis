@@ -24,9 +24,3 @@
   <string>12.0</string>
 </dict>
 </plist>
-
-<key>NSAppTransportSecurity</key>
-<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-</dict>

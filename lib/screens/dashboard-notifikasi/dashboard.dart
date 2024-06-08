@@ -253,7 +253,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
             items: [
               buildCarouselItem('images/rs.png', 'Rumah Sakit Sentra Medika Resmi Dibuka!'),
               buildCarouselItem('images/ai.jpg', 'Peranan AI dalam Diagnostik Medis'),
-              buildCarouselItem('images/igd.jpg', 'Peresmian IGD Rumah Sakit Sentra Medika'),
+              buildCarouselItem('images/polahidup.jpg', 'Pentingnya Pola Hidup Sehat Untuk Mencegah Penyakit Kronis'),
             ],
           ),
           SizedBox(height: 8.0),
