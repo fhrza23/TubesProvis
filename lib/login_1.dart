@@ -4,7 +4,7 @@ import 'package:flutter_application_2/models/login_model.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'sandi_1.dart';
+import 'screens/profil/sandi_1.dart';
 
 class LoginPage extends StatefulWidget {
   @override

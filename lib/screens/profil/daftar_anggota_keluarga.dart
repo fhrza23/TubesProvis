@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/dashboard-notifikasi/dashboard.dart';
+import '../dashboard-notifikasi/dashboard.dart';
+import 'user_profile.dart';
 
 String _getImagePath(int index) {
   switch (index) {
@@ -52,7 +53,7 @@ class DaftarAnggotaKeluarga extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => Dashboard())
+              MaterialPageRoute(builder: (context) => UserProfile())
             );
           },
         ),

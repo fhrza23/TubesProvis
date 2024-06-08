@@ -4,7 +4,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_popup/flutter_popup.dart';
 import '../../jadwal_dokter.dart';
 import '../../doctor_list.dart';
-import '../../user_profile.dart';
+import '../profil/user_profile.dart';
 import '../../rekam_medis_1.dart';
 import '../artikel/artikel_1.dart';
 import '../../pendaftaraan.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_application_2/main44.dart';
-import 'main.dart';
+import '../../main.dart';
 
 class SandiConfirmPage extends StatelessWidget {
   @override
