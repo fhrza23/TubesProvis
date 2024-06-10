@@ -112,7 +112,6 @@ class RekamMedisSarahPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4),
-                // Button "Daftar Lagi"
                 ElevatedButton(
                   onPressed: () {
                     // Aksi yang dijalankan saat tombol "Daftar Lagi" ditekan

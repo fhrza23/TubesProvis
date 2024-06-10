@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'screens/dashboard-notifikasi/dashboard.dart';
 import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/screens/profil/daftar_anggota_keluarga.dart';
 import 'package:flutter_application_2/screens/profil/sandi_1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../dashboard-notifikasi/dashboard.dart';
+import 'daftar_anggota_keluarga.dart';
+import 'sandi_1.dart';
+
+class UserProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Laman Status Pemeriksaan',
+      theme: ThemeData(
+        primaryColor: Colors.teal,
+        textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme),
+      ),
+      home: UserProfile(),
+    );
+  }
+}
 
 class UserProfile extends StatelessWidget {
   @override
@@ -107,14 +123,21 @@ class UserProfile extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 35), 
             child: GestureDetector(
-              onTap: () {
-                
-              },
+              onTap: () {},
               child: Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute
+                        (
+                          builder: (context) => DaftarAnggotaKeluarga(),
+                        ),
+                      );
+                    },
+                    child: Row(
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -144,6 +167,7 @@ class UserProfile extends StatelessWidget {
                         )
                       ],
                     ),
+                  )
                   ],
                 ),
               ),
@@ -187,6 +211,43 @@ class UserProfile extends StatelessWidget {
                   ),
                 )
               ],
+            // child: GestureDetector(
+            //   onTap: () {},
+            //   child: Container(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         GestureDetector(
+            //           onTap: () {
+            //             Navigator.of(context).push(
+            //               MaterialPageRoute
+            //               (
+            //                 builder: (context) => SandiPage(),
+            //               ),
+            //             );
+            //           },
+            //           child: Row(
+            //             children: [
+            //               Image.asset(
+            //                 'images/password.png',
+            //                 width: 20,
+            //                 height: 20,
+            //                 color: Colors.black,
+            //               ),
+            //               SizedBox(width: 25), 
+            //               Text(
+            //                 'Ubah Kata Sandi',
+            //                 style: GoogleFonts.montserrat(
+            //                   fontSize: 15,
+            //                   fontWeight: FontWeight.bold,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
             ),
           ),
           SizedBox(height: 20),
@@ -194,8 +255,13 @@ class UserProfile extends StatelessWidget {
             padding: EdgeInsets.only(left: 35, bottom: 290), 
             child: GestureDetector(
               onTap: () {
-                
-              },
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
               child: Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

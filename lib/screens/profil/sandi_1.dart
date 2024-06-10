@@ -411,13 +411,13 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'models/sandi_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'provider/token_provider.dart';
-import 'provider/sandi_provider.dart'; // Assuming you have a PasswordProvider
+import 'package:flutter_application_2/provider/token_provider.dart';
+import 'package:flutter_application_2/models/sandi_model.dart';
+import 'package:flutter_application_2/provider/sandi_provider.dart'; // Assuming you have a PasswordProvider
 
 class SandiPage extends StatefulWidget {
   @override

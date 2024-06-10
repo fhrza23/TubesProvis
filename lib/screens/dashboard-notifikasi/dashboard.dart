@@ -6,8 +6,8 @@ import 'package:flutter_popup/flutter_popup.dart';
 import 'package:provider/provider.dart';
 import '../../jadwal_dokter.dart';
 import '../../doctor_list.dart';
-import '../../user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../profil/user_profile.dart';
 import '../../rekam_medis_1.dart';
 import '../artikel/artikel_1.dart';
 import '../../pendaftaraan.dart';
@@ -145,7 +145,7 @@ class _DashboardPageState extends State<DashboardPage> {
               });
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UserProfile()),
+                MaterialPageRoute(builder: (context) => UserProfilePage()),
               );
             },
           ),
@@ -270,7 +270,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
             items: [
               buildCarouselItem('images/rs.png', 'Rumah Sakit Sentra Medika Resmi Dibuka!'),
               buildCarouselItem('images/ai.jpg', 'Peranan AI dalam Diagnostik Medis'),
-              buildCarouselItem('images/igd.jpg', 'Peresmian IGD Rumah Sakit Sentra Medika'),
+              buildCarouselItem('images/polahidup.jpg', 'Pentingnya Pola Hidup Sehat Untuk Mencegah Penyakit Kronis'),
             ],
           ),
           SizedBox(height: 8.0),
