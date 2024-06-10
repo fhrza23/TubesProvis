@@ -65,6 +65,12 @@ class _DaftarPageState extends State<DaftarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+                leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           'Rawatjalan.id',
           style: TextStyle(color: Colors.white),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter_application_2/qr_booking.dart';
 import 'package:flutter_popup/flutter_popup.dart';
+import 'package:provider/provider.dart';
 import '../../jadwal_dokter.dart';
 import '../../doctor_list.dart';
 import '../../user_profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../rekam_medis_1.dart';
 import '../artikel/artikel_1.dart';
 import '../../pendaftaraan.dart';
@@ -12,12 +15,22 @@ import 'semua_notifikasi.dart';
 import '../../services/api_service.dart';
 import '../../models/notif.dart';
 import 'package:intl/intl.dart';
+import '../../provider/token_provider.dart';
+import 'package:flutter_application_2/status_pemeriksaan.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+  // final tokenProvider = Provider.of<TokenProvider>(context);
+  // final token = tokenProvider.token;
+      SharedPreferences.getInstance().then((prefs) {
+      String? token = prefs.getString('token');
+      print('Token: $token');
+      // Lakukan sesuatu dengan token
+  // print('Token before request: $token');
+    });
     return MaterialApp(
       title: 'Dashboard',
       debugShowCheckedModeBanner: false,
@@ -34,6 +47,7 @@ class DashboardPage extends StatefulWidget {
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
+
 class _DashboardPageState extends State<DashboardPage> {
   late Future<List<Notifikasi>> futureNotifications;
 
@@ -126,6 +140,9 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: const Icon(Icons.person),
             color: Colors.white,
             onPressed: () {
+                SharedPreferences.getInstance().then((prefs) {
+                String? token = prefs.getString('token');
+              });
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UserProfile()),
@@ -237,7 +254,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
           SizedBox(height: 20.0),
           CarouselSlider(
             options: CarouselOptions(
-              height: 200.0,
+              height: 190.0,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 3),
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
@@ -336,7 +353,7 @@ class ButtonGrid extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  buildButton(Icons.queue, 'Status\nAntrean', JadwalDokter()),
+                  buildButton(Icons.queue, 'Status\nAntrean', CheckUp()),//JadwalDokter()),
                   SizedBox(width: 20),
                   buildButton(Icons.access_time, 'Rekam\nMedis', RekamMedis()),
                 ],

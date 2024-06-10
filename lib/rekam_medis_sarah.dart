@@ -3,6 +3,8 @@ import 'rekam_medis_1.dart';
 import 'hasil_pemeriksaan.dart';
 
 class RekamMedisSarahPage extends StatelessWidget {
+  TextEditingController nikController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
   @override
   Widget build(BuildContext context){
     return Scaffold(

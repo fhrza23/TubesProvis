@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_2/models/login_model.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
+import 'services/api_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'sandi_1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +23,12 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
+                leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           'Rawatjalan.id',
           style: TextStyle(color: Colors.white),
@@ -45,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 60),
                 TextField(
+                  controller: nikController,
                   onChanged: (value) => loginModel.updateNik(value),
                   decoration: InputDecoration(
                     labelText: 'Nomor Induk Kependudukkan',
@@ -52,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  controller: passwordController,
                   onChanged: (value) => loginModel.updatePassword(value),
                   obscureText: true,
                   decoration: InputDecoration(
@@ -70,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     var response = await http.post(
                       Uri.parse(url),
                       headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json; charset=UTF-8',
                       },
                       body: jsonEncode({
                         'nik': nik,
@@ -78,12 +88,27 @@ class _LoginPageState extends State<LoginPage> {
                       }),
                     );
 
+                    print("Response status code: ${response.statusCode}");
+                    print("Response body: ${response.body}");
+
                     if (response.statusCode == 200) {
-                      // Berhasil login
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Dashboard()),
-                      );
+                        final token = jsonDecode(response.body)['access_token'];
+                        print("Access token: $token");
+
+                        // final prefs = await SharedPreferences.getInstance();
+                        // await prefs.setString('token', token);
+                        SharedPreferences.getInstance().then((prefs) {
+                          prefs.setString('token', token);
+                        });
+
+                        // Berhasil login
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Dashboard()),
+                        );
+                      // } else {
+                      //   print("Token is null"); // Debugging
+                      // }
                     } else if (response.statusCode == 401) {
                       // Gagal login, menampilkan pesan kesalahan
                       showDialog(

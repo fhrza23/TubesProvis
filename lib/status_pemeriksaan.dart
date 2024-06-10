@@ -4,12 +4,13 @@ import 'package:flutter_application_2/batal_cek.dart';
 import 'package:flutter_application_2/pendaftaraan.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'pendaftaraan.dart';
+// import '/../../screen/dashboard.dart';
 
 // void main() {
 //   runApp(MyApp());
 // }
 
-class MyApp extends StatelessWidget {
+class CheckUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

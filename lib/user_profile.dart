@@ -2,23 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/dashboard-notifikasi/dashboard.dart';
 import 'package:flutter_application_2/main.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: UserProfile(),
-//     );
-//   }
-// }
+import 'package:flutter_application_2/daftar_anggota_keluarga.dart';
+import 'package:flutter_application_2/sandi_1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+      SharedPreferences.getInstance().then((prefs) {
+      String? token = prefs.getString('token');
+      print('Token: $token');
+      // Lakukan sesuatu dengan token
+  // print('Token before request: $token');
+    });
     return Scaffold(
       body: ListView(
         children: [
@@ -39,12 +35,12 @@ class UserProfile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          // onTap: () {
-                          //   Navigator.push(
-                          //     context, 
-                          //     MaterialPageRoute(builder: (context) => Dashboard())
-                          //   );
-                          // },
+                          onTap: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => Dashboard())
+                            );
+                          },
                           child: IconButton(
                             icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
                             onPressed: () {
@@ -120,20 +116,32 @@ class UserProfile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Image.asset(
-                          'images/family.png',
-                          width: 20,
-                          height: 20,
-                          color: Colors.black,
-                        ),
-                        SizedBox(width: 25), 
-                        Text(
-                          'Daftar Anggota Keluarga',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => DaftarAnggotaKeluarga())
+                            );
+                          },
+                          child: Row(  // Use Row to place items horizontally
+                            children: [
+                              Image.asset(
+                                'images/family.png',
+                                width: 20,
+                                height: 20,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 25),
+                              Text(
+                                'Daftar Anggota Keluarga',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ],
@@ -144,35 +152,41 @@ class UserProfile extends StatelessWidget {
           SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.only(left: 35),
-            child: GestureDetector(
-              onTap: () {
-                
-              },
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'images/password.png',
-                          width: 20,
-                          height: 20,
-                          color: Colors.black,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                          SharedPreferences.getInstance().then((prefs) {
+      String? token = prefs.getString('token');
+      print('Token: $token');
+      // Lakukan sesuatu dengan token
+  // print('Token before request: $token');
+    });
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => SandiPage())
+                    );
+                  },
+                  child: Row(  // Use Row to place items horizontally
+                    children: [
+                      Image.asset(
+                        'images/password.png',
+                        width: 20,
+                        height: 20,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 25),
+                      Text(
+                        'Ubah Kata Sandi',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(width: 25),
-                        Text(
-                          'Ubah Kata Sandi',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(height: 20),

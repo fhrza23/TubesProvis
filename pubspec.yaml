@@ -36,11 +36,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
-  # flutter_recaptcha_v2: ^0.1.0
   flutter_svg: ^2.0.7
   http: ^1.2.1
   intl: ^0.19.0
   provider: ^6.1.2
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -59,9 +59,13 @@ flutter:
   assets:
     - images/rs.png
     - images/ai.jpg
+    - images/01.jpg
     - images/igd.jpg
     - images/Sarah.jpeg
     - images/back.png
+    - images/kanker.jpg
+    - images/jemur.jpg
+    - images/mental.jpg
     - images/family.png
     - images/password.png
     - images/log-out.png

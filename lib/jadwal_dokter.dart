@@ -310,265 +310,265 @@
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'provider/dokter_provider.dart';
-import 'models/dokter.dart';
-import 'screens/dashboard-notifikasi/dashboard.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:provider/provider.dart';
+// import 'provider/dokter_provider.dart';
+// import 'models/dokter_model.dart';
+// import 'screens/dashboard-notifikasi/dashboard.dart';
 
-class JadwalDokter extends StatefulWidget {
-  @override
-  _JadwalDokterState createState() => _JadwalDokterState();
-}
+// class JadwalDokter extends StatefulWidget {
+//   @override
+//   _JadwalDokterState createState() => _JadwalDokterState();
+// }
 
-class _JadwalDokterState extends State<JadwalDokter> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<DokterProvider>(context, listen: false).fetchDokter();
-  }
+// class _JadwalDokterState extends State<JadwalDokter> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     Provider.of<DokterProvider>(context, listen: false).fetchDokter();
+//   }
 
-  Widget build(BuildContext context) {
-    final dokterProvider = Provider.of<DokterProvider>(context);
+//   Widget build(BuildContext context) {
+//     final dokterProvider = Provider.of<DokterProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal, 
-        leading: IconButton(
-          icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-          onPressed: () {
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => Dashboard())
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.teal, 
+//         leading: IconButton(
+//           icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+//           onPressed: () {
+//             Navigator.push(
+//               context, 
+//               MaterialPageRoute(builder: (context) => Dashboard())
+//             );
+//           },
+//         ),
+//         actions: [
+//           IconButton(
+//             icon: Icon(Icons.notifications, color: Colors.white),
+//             onPressed: () {
 
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.person, color: Colors.white),
-            onPressed: () {
+//             },
+//           ),
+//           IconButton(
+//             icon: Icon(Icons.person, color: Colors.white),
+//             onPressed: () {
 
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 18, top: 20, bottom: 20),
-            child: Text(
-              'Jadwal Dokter',
-              textAlign: TextAlign.left,
-              style: GoogleFonts.montserrat(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: dokterProvider.dokterList.length,
-              itemBuilder: (context, index) {
-                Dokter dokter = dokterProvider.dokterList[index];
-                return Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.03),
-                            spreadRadius: 10,
-                            blurRadius: 3,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                              left: 20,
-                              right: 20,
-                              bottom: 10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dokter.hari_praktek,
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      dokter.jam_praktek,
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 13,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.more_vert),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Divider(
-                            color: Colors.grey,
-                            thickness: 0.1,
-                            indent: 20,
-                            endIndent: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: NetworkImage(dokter.foto_dokter),
-                                ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dokter.nama_dokter,
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Spesialis ${dokter.spesialis}',
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 13,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            color: Color(0xFF00897B),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'images/location-person.png',
-                            width: 20,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'Jalan Rumah Sehat No 01',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'images/mail.png',
-                            width: 20,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'rawatjalan@gmail.com',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            'images/call.png',
-                            width: 20,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            '021-1234567890',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const SizedBox(height: 20),
+//           Padding(
+//             padding: const EdgeInsets.only(left: 18, top: 20, bottom: 20),
+//             child: Text(
+//               'Jadwal Dokter',
+//               textAlign: TextAlign.left,
+//               style: GoogleFonts.montserrat(
+//                 fontSize: 23,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: dokterProvider.dokterList.length,
+//               itemBuilder: (context, index) {
+//                 Dokter dokter = dokterProvider.dokterList[index];
+//                 return Column(
+//                   children: [
+//                     Container(
+//                       margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
+//                       decoration: BoxDecoration(
+//                         color: Colors.white,
+//                         borderRadius: BorderRadius.circular(10),
+//                         boxShadow: [
+//                           BoxShadow(
+//                             color: Colors.grey.withOpacity(0.03),
+//                             spreadRadius: 10,
+//                             blurRadius: 3,
+//                           ),
+//                         ],
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Padding(
+//                             padding: const EdgeInsets.only(
+//                               top: 10,
+//                               left: 20,
+//                               right: 20,
+//                               bottom: 10,
+//                             ),
+//                             child: Row(
+//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                               children: [
+//                                 Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                       dokter.hari_praktek,
+//                                       style: GoogleFonts.montserrat(
+//                                         fontSize: 13,
+//                                         color: Colors.black,
+//                                       ),
+//                                     ),
+//                                     Text(
+//                                       dokter.jam_praktek,
+//                                       style: GoogleFonts.montserrat(
+//                                         fontSize: 13,
+//                                         color: Colors.grey,
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 ),
+//                                 Padding(
+//                                   padding: const EdgeInsets.all(8.0),
+//                                   child: Icon(Icons.more_vert),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                           Divider(
+//                             color: Colors.grey,
+//                             thickness: 0.1,
+//                             indent: 20,
+//                             endIndent: 20,
+//                           ),
+//                           Padding(
+//                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//                             child: Row(
+//                               children: [
+//                                 CircleAvatar(
+//                                   radius: 20,
+//                                   backgroundImage: NetworkImage(dokter.foto_dokter),
+//                                 ),
+//                                 const SizedBox(width: 10),
+//                                 Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                       dokter.nama_dokter,
+//                                       style: GoogleFonts.montserrat(
+//                                         fontSize: 13,
+//                                         color: Colors.black,
+//                                       ),
+//                                     ),
+//                                     Text(
+//                                       'Spesialis ${dokter.spesialis}',
+//                                       style: GoogleFonts.montserrat(
+//                                         fontSize: 13,
+//                                         color: Colors.grey,
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 );
+//               },
+//             ),
+//           ),
+//           const SizedBox(height: 20),
+//           Container(
+//             color: Color(0xFF00897B),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 const SizedBox(height: 5),
+//                 Padding(
+//                   padding: const EdgeInsets.only(left: 16, top: 20),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Row(
+//                         children: [
+//                           Image.asset(
+//                             'images/location-person.png',
+//                             width: 20,
+//                             height: 20,
+//                             color: Colors.white,
+//                           ),
+//                           const SizedBox(width: 10),
+//                           Text(
+//                             'Jalan Rumah Sehat No 01',
+//                             style: GoogleFonts.montserrat(
+//                               fontSize: 15,
+//                               color: Colors.white,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 const SizedBox(height: 5),
+//                 Padding(
+//                   padding: const EdgeInsets.only(left: 16),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Row(
+//                         children: [
+//                           Image.asset(
+//                             'images/mail.png',
+//                             width: 20,
+//                             height: 20,
+//                             color: Colors.white,
+//                           ),
+//                           const SizedBox(width: 10),
+//                           Text(
+//                             'rawatjalan@gmail.com',
+//                             style: GoogleFonts.montserrat(
+//                               fontSize: 15,
+//                               color: Colors.white,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 const SizedBox(height: 5),
+//                 Padding(
+//                   padding: const EdgeInsets.only(left: 16, bottom: 20),
+//                   child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Row(
+//                         children: [
+//                           Image.asset(
+//                             'images/call.png',
+//                             width: 20,
+//                             height: 20,
+//                             color: Colors.white,
+//                           ),
+//                           const SizedBox(width: 10),
+//                           Text(
+//                             '021-1234567890',
+//                             style: GoogleFonts.montserrat(
+//                               fontSize: 15,
+//                               color: Colors.white,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

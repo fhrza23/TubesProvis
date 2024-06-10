@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/provider/token_provider.dart';
 import 'package:provider/provider.dart';
 import 'services/user_service.dart';
 import 'models/daftar_model.dart';
 import 'models/login_model.dart';
 import 'provider/dokter_provider.dart';
+import 'provider/token_provider.dart';
+import 'provider/sandi_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'kontentengah.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => DokterProvider()),
         ChangeNotifierProvider(create: (_) => LoginModel()),
         ChangeNotifierProvider(create: (context) => DaftarModel()),
+        // ChangeNotifierProvider(create: (_) => PasswordProvider()),
+        ChangeNotifierProvider(create: (_) => TokenProvider()),
         Provider(create: (_) => UserService()),
       ],
-      child: MyApp(),
+      child: MyApp(prefs: prefs),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  final SharedPreferences prefs;
+
+  MyApp({required this.prefs});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(), 
+      home: HomeScreen(),
     );
   }
 }
@@ -54,5 +67,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
