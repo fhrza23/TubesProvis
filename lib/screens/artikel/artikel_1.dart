@@ -56,20 +56,6 @@ class _ArtikelPageState extends State<ArtikelPage> {
             Navigator.pop(context);
           },
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.notifications, color: Colors.white),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        //   IconButton(
-        //     icon: Icon(Icons.account_circle, color: Colors.white),
-        //     onPressed: () {
-        //       // Fungsi yang akan dijalankan ketika tombol profil ditekan
-        //     },
-        //   ),
-        // ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,8 +64,8 @@ class _ArtikelPageState extends State<ArtikelPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'Artikel',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              'Artikel & Berita',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.teal),
             ),
           ),
           SizedBox(height: 16),
@@ -150,65 +136,50 @@ class _ArtikelPageState extends State<ArtikelPage> {
                     },
                   ),
                 ),
+      FooterWidget()
         ],
       ),
-      bottomNavigationBar: PreferredSize(
-        preferredSize: Size.fromHeight(130.0),
-        child: SizedBox(
-          height: 130.0,
-          child: BottomAppBar(
-            color: Color.fromRGBO(35, 136, 120, 1),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        'Jalan Rumah Sehat Nomor 01',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.email, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        'rawatjalan@gmail.com',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.phone, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        '021-12345678',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+    );
+  }
+}
+
+class FooterWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 112,
+      color: Color.fromRGBO(35, 136, 120, 1),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.white),
+                SizedBox(width: 8),
+                Text("Jalan Rumah Sehat No 01",
+                    style: TextStyle(color: Colors.white)),
+              ],
             ),
-          ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Icon(Icons.email, color: Colors.white),
+                SizedBox(width: 8),
+                Text("rawatjalan@gmail.com",
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Icon(Icons.call, color: Colors.white),
+                SizedBox(width: 8),
+                Text("021-123456789",
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ],
         ),
       ),
     );

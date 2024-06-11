@@ -728,10 +728,10 @@ final Map<String, dynamic> requestBody = {
     print('Response body: ${response.body}');
 
     if (response.statusCode == 201) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UserProfile()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => UserProfile()),
+      // );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Pembaruan kata sandi gagal, silakan coba lagi.')),

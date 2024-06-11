@@ -33,7 +33,18 @@ SECRET_KEY = "kelompok_tujuh"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 90
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+class UserResponse(BaseModel):
+    nik: str
+    nama: str
+    no_hp: str
+    password: str
+    tgl_lahir: str
     
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+        
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -220,7 +231,7 @@ def login(user: LoginUser):
     except Exception as e:
         print(f"Error processing login request: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
-        
+
 # Fungsi untuk mendapatkan pengguna saat ini dari token
 def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -247,6 +258,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     # user_dict = {key: value for key, value in zip(cursor.description, user)}
     # return user_dict
+    # print(user)
     return user
 
 async def verify_token(token: str = Depends(oauth2_scheme)):
@@ -254,6 +266,12 @@ async def verify_token(token: str = Depends(oauth2_scheme)):
         return True
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    
+@app.get("/api/me", response_model=RegisterUser)
+async def get_user_info(current_user: RegisterUser = Depends(get_current_user)):
+    print(current_user)
+    return current_user
+
     
 # Endpoint untuk membuat pengguna baru
 @app.post('/api/users', status_code=201)
@@ -332,6 +350,7 @@ def get_user(user_id: int):
     user = cursor.fetchone()
     conn.close()
     if user:
+        print(user)
         return user
     else:
         raise HTTPException(status_code=404, detail="User not found")
@@ -449,6 +468,43 @@ def get_data_dokter():
         print(data_dokter)
         conn.close()
         return list(data_dokter.values())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get('/api/data_dokter/{id_dokter}')
+def get_data_dokter_by_id(id_dokter: int):
+    try:
+        conn = connect_db()
+        if not conn:
+            raise HTTPException(status_code=500, detail="Failed to connect to database")
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT dokter.id_dokter, dokter.nama_dokter, dokter.rating, dokter.alumni, dokter.pengalaman, dokter.nomor_str, dokter.foto_dokter, spesialis.jenis_spesialis, jadwal.hari, jadwal.jam
+            FROM dokter
+            LEFT JOIN spesialis ON dokter.id_dokter = spesialis.id_dokter
+            LEFT JOIN jadwal ON dokter.id_dokter = jadwal.id_dokter
+            WHERE dokter.id_dokter = ?
+        ''', (id_dokter,))
+        data = cursor.fetchall()
+        if not data:
+            raise HTTPException(status_code=404, detail="Dokter not found")
+        data_dokter = []
+        for row in data:
+            dokter_data = {
+                "id_dokter": row[0],
+                "nama_dokter": row[1],
+                "rating": row[2],
+                "alumni": row[3],
+                "pengalaman": row[4],
+                "nomor_str": row[5],
+                "foto_dokter": row[6],
+                "jenis_spesialis": row[7],
+                "hari": row[8],
+                "jam": row[9]
+            }
+            data_dokter.append(dokter_data)
+        conn.close()
+        return data_dokter
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     

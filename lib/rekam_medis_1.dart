@@ -66,6 +66,7 @@ class RekamMedis extends StatelessWidget {
               ],
             ),
           ),
+          FooterWidget()
         ],
       ),
     );
@@ -120,6 +121,49 @@ class RekamMedis extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FooterWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 112,
+      color: Color.fromRGBO(35, 136, 120, 1),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.white),
+                SizedBox(width: 8),
+                Text("Jalan Rumah Sehat No 01",
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Icon(Icons.email, color: Colors.white),
+                SizedBox(width: 8),
+                Text("rawatjalan@gmail.com",
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Icon(Icons.call, color: Colors.white),
+                SizedBox(width: 8),
+                Text("021-123456789",
+                    style: TextStyle(color: Colors.white)),
+              ],
             ),
           ],
         ),

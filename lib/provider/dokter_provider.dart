@@ -3,248 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/dokter_model.dart';
 import 'dart:convert';
 
-// class DokterProvider with ChangeNotifier {
-//   List<Dokter> _dokterList = [];
-//   List<Dokter> _searchResult = [];
-//   List<String> _spesialisList = [];
-
-//   List<Dokter> get dokterList => _dokterList;
-//   List<Dokter> get searchResult => _searchResult;
-//   List<String> get spesialisList => _spesialisList;
-
-//   Future<void> fetchDokter() async {
-//     final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/data_dokter'));
-
-//     if (response.statusCode == 200) {
-//       final List<dynamic> dokterData = json.decode(response.body);
-
-//       // Print respons yang diterima
-//       // print('Response from backend: $dokterData');
-
-//       // Bersihkan daftar dokter sebelum menambahkan data baru
-//       _dokterList.clear();
-
-//       // Buat map untuk menyimpan dokter berdasarkan ID dokter
-//       Map<int, Dokter> dokterMap = {};
-
-//       for (var dokterDataItem in dokterData) {
-//         try {
-//           // Periksa apakah dokterDataItem adalah Map<String, dynamic>
-//           if (dokterDataItem is Map<String, dynamic>) {
-//             int idDokter = dokterDataItem['id_dokter'];
-
-//             // Cek apakah dokter dengan ID tersebut sudah ada di map
-//             if (!dokterMap.containsKey(idDokter)) {
-//               // Jika belum ada, tambahkan dokter ke map
-//               dokterMap[idDokter] = Dokter(
-//                 id_dokter: idDokter,
-//                 nama_dokter: dokterDataItem['nama_dokter'],
-//                 rating: dokterDataItem['rating'],
-//                 alumni: dokterDataItem['alumni'],
-//                 pengalaman: dokterDataItem['pengalaman'],
-//                 nomor_str: dokterDataItem['nomor_str'],
-//                 foto_dokter: dokterDataItem['foto_dokter'],
-//                 create_at_dokter: dokterDataItem['create_at_dokter'],
-//                 update_at_dokter: dokterDataItem['update_at_dokter'],
-//                 jenis_spesialis: dokterDataItem['jenis_spesialis'],
-//                 hari: dokterDataItem['hari'],
-//                 jam: dokterDataItem['jam'],
-//               );
-//             }
-//           } else {
-//             // Jika dokterDataItem tidak sesuai dengan format yang diharapkan, lewati
-//             print('Invalid dokter data format: $dokterDataItem');
-//           }
-//         } catch (e) {
-//           // Tangani kesalahan jika terjadi
-//           print('Error parsing dokter data: $e');
-//         }
-//       }
-
-//       // Tambahkan semua dokter dari map ke dalam _dokterList
-//       _dokterList.addAll(dokterMap.values);
-
-//       // Memberi tahu listener bahwa data telah diperbarui
-//       notifyListeners();
-//     } else {
-//       // Tangani kasus ketika respons tidak 200 (OK)
-//       throw Exception('Failed to load dokter');
-//     }
-//   }
-
-//   Future<void> fetchSpesialis() async {
-//     final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/spesialis'));
-
-//     if (response.statusCode == 200) {
-//       final List<dynamic> spesialisData = json.decode(response.body);
-//       _spesialisList = spesialisData.map((spesialis) => spesialis['jenis_spesialis'] as String).toList();
-//       _spesialisList.insert(0, 'Spesialis'); // Menambahkan opsi "Spesialis" di awal daftar
-//       notifyListeners();
-//     } else {
-//       throw Exception('Failed to load spesialis');
-//     }
-//   }
-
-//   void searchDokter(String query) {
-//     if (query.isEmpty) {
-//       clearSearchResult();
-//       return;
-//     }
-
-//     _searchResult = _dokterList
-//         .where((dokter) => dokter.nama_dokter.toLowerCase().contains(query.toLowerCase()))
-//         .toList();
-
-//     notifyListeners();
-//   }
-
-//   void filterDokterBySpesialis(String? spesialis) {
-//     if (spesialis == null || spesialis == 'Spesialis') {
-//       clearSearchResult();
-//     } else {
-//       _searchResult = _dokterList
-//           .where((dokter) => dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
-//           .toList();
-//     }
-//     notifyListeners();
-//   }
-
-//   void clearSearchResult() {
-//     _searchResult.clear();
-//     notifyListeners();
-//   }
-// }
-
-// class DokterProvider with ChangeNotifier 
-// {
-//   List<Dokter> _dokterList = [];
-//   List<Dokter> _searchResult = [];
-//   List<String> _spesialisList = [];
-
-//   List<Dokter> get dokterList => _dokterList;
-//   List<Dokter> get searchResult => _searchResult;
-//   List<String> get spesialisList => _spesialisList;
-
-//   Future<void> fetchDokter() async 
-//   {
-//     final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/data_dokter'));
-
-//     if (response.statusCode == 200) 
-//     {
-//       final List<dynamic> dokterData = json.decode(response.body);
-
-//       // Print respons yang diterima
-//       // print('Response from backend: $dokterData');
-
-//       // Bersihkan daftar dokter dan spesialis sebelum menambahkan data baru
-//       _dokterList.clear();
-//       _spesialisList.clear();
-
-//       // Buat map untuk menyimpan dokter berdasarkan ID dokter
-//       Map<int, Dokter> dokterMap = {};
-//       Set<String> spesialisSet = {};
-
-//       for (var dokterDataItem in dokterData) 
-//       {
-//         try {
-//           // Periksa apakah dokterDataItem adalah Map<String, dynamic>
-//           if (dokterDataItem is Map<String, dynamic>) 
-//           {
-//             int idDokter = dokterDataItem['id_dokter'];
-
-//             // Cek apakah dokter dengan ID tersebut sudah ada di map
-//             if (!dokterMap.containsKey(idDokter)) {
-//               // Jika belum ada, tambahkan dokter ke map
-//               dokterMap[idDokter] = Dokter(
-//                 id_dokter: idDokter,
-//                 nama_dokter: dokterDataItem['nama_dokter'],
-//                 rating: dokterDataItem['rating'],
-//                 alumni: dokterDataItem['alumni'],
-//                 pengalaman: dokterDataItem['pengalaman'],
-//                 nomor_str: dokterDataItem['nomor_str'],
-//                 foto_dokter: dokterDataItem['foto_dokter'],
-//                 create_at_dokter: dokterDataItem['create_at_dokter'],
-//                 update_at_dokter: dokterDataItem['update_at_dokter'],
-//                 jenis_spesialis: dokterDataItem['jenis_spesialis'],
-//                 hari: dokterDataItem['hari'],
-//                 jam: dokterDataItem['jam'],
-//               );
-
-//               // Tambahkan jenis spesialis ke dalam set
-//               spesialisSet.add(dokterDataItem['jenis_spesialis']);
-//             }
-//           } 
-//           else 
-//           {
-//             // Jika dokterDataItem tidak sesuai dengan format yang diharapkan, lewati
-//             print('Invalid dokter data format: $dokterDataItem');
-//           }
-//         } 
-//         catch (e) 
-//         {
-//           // Tangani kesalahan jika terjadi
-//           print('Error parsing dokter data: $e');
-//         }
-//       }
-
-//       // Tambahkan semua dokter dari map ke dalam _dokterList
-//       _dokterList.addAll(dokterMap.values);
-
-//       // Set spesialisasi unik
-//       _spesialisList = spesialisSet.toList();
-//       _spesialisList.insert(0, 'Spesialis'); // Menambahkan opsi "Spesialis" di awal daftar
-
-//       // Memberi tahu listener bahwa data telah diperbarui
-//       notifyListeners();
-//     } 
-//     else 
-//     {
-//       // Tangani kasus ketika respons tidak 200 (OK)
-//       throw Exception('Failed to load dokter');
-//     }
-//   }
-
-//   // Hapus metode fetchSpesialis karena sudah diintegrasikan dengan fetchDokter
-
-//   void searchDokter(String query) 
-//   {
-//     if (query.isEmpty) 
-//     {
-//       clearSearchResult();
-//       return;
-//     }
-
-//     _searchResult = _dokterList
-//         .where((dokter) => dokter.nama_dokter.toLowerCase().contains(query.toLowerCase()))
-//         .toList();
-
-//     notifyListeners();
-//   }
-
-//   void filterDokterBySpesialis(String? spesialis) 
-//   {
-//     if (spesialis == null || spesialis == 'Spesialis') 
-//     {
-//       clearSearchResult();
-//     } 
-//     else 
-//     {
-//       _searchResult = _dokterList
-//           .where((dokter) => dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
-//           .toList();
-//     }
-//     notifyListeners();
-//   }
-
-//   void clearSearchResult() 
-//   {
-//     _searchResult.clear();
-//     notifyListeners();
-//   }
-// }
-
-class DokterProvider with ChangeNotifier 
-{
+class DokterProvider with ChangeNotifier {
   List<Dokter> _dokterList = [];
   List<Dokter> _searchResult = [];
   List<String> _spesialisList = [];
@@ -263,7 +22,7 @@ class DokterProvider with ChangeNotifier
 
       _dokterList.clear();
       _spesialisList.clear();
-      // _hariList.clear();
+      _hariList.clear();
 
       Map<int, Dokter> dokterMap = {};
       Set<String> spesialisSet = {};
@@ -275,25 +34,14 @@ class DokterProvider with ChangeNotifier
             int idDokter = dokterDataItem['id_dokter'];
 
             if (!dokterMap.containsKey(idDokter)) {
-              dokterMap[idDokter] = Dokter(
-                id_dokter: idDokter,
-                nama_dokter: dokterDataItem['nama_dokter'],
-                rating: dokterDataItem['rating'],
-                alumni: dokterDataItem['alumni'],
-                pengalaman: dokterDataItem['pengalaman'],
-                nomor_str: dokterDataItem['nomor_str'],
-                foto_dokter: dokterDataItem['foto_dokter'],
-                create_at_dokter: dokterDataItem['create_at_dokter'],
-                update_at_dokter: dokterDataItem['update_at_dokter'],
-                jenis_spesialis: dokterDataItem['jenis_spesialis'],
-                hari: dokterDataItem['hari'],
-                jam: dokterDataItem['jam'],
-              );
-
+              dokterMap[idDokter] = Dokter.fromJson(dokterDataItem);
               spesialisSet.add(dokterDataItem['jenis_spesialis']);
-              hariSet.add(dokterDataItem['hari']);
             }
 
+            var jadwal = dokterDataItem['jadwal'] as List;
+            for (var jadwalItem in jadwal) {
+              hariSet.add(jadwalItem['hari']);
+            }
           } else {
             print('Invalid dokter data format: $dokterDataItem');
           }
@@ -303,12 +51,11 @@ class DokterProvider with ChangeNotifier
       }
 
       _dokterList.addAll(dokterMap.values);
-      
       _spesialisList = spesialisSet.toList();
       _spesialisList.insert(0, 'Spesialis');
 
       _hariList = hariSet.toList();
-      _hariList.insert(0, 'Semua');
+      _hariList.insert(0, 'Hari');
 
       notifyListeners();
     } else {
@@ -316,49 +63,110 @@ class DokterProvider with ChangeNotifier
     }
   }
 
-  void searchDokter(String query) 
-  {
-    if (query.isEmpty) 
-    {
+  Future<void> fetchDokterById(int id_dokter) async {
+  final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/data_dokter/$id_dokter'));
+
+  if (response.statusCode == 200) {
+    final dokterDataItem = json.decode(response.body);
+
+    try {
+      if (dokterDataItem is Map<String, dynamic>) {
+        Dokter dokter = Dokter.fromJson(dokterDataItem);
+
+        // Ensure the dokter is not already in the list
+        if (!_dokterList.any((d) => d.id_dokter == dokter.id_dokter)) {
+          _dokterList.add(dokter);
+
+          // Update spesialis and hari lists if they are not already present
+          if (!_spesialisList.contains(dokter.jenis_spesialis)) {
+            _spesialisList.add(dokter.jenis_spesialis);
+          }
+          
+          for (var jadwalItem in dokter.jadwal) {
+            if (!_hariList.contains(jadwalItem.hari)) {
+              _hariList.add(jadwalItem.hari);
+            }
+          }
+
+          notifyListeners();
+        }
+      } else {
+        print('Invalid dokter data format: $dokterDataItem');
+        throw Exception('Invalid data format');
+      }
+    } catch (e) {
+      print('Error parsing dokter data: $e');
+      throw Exception('Error parsing data');
+    }
+  } else {
+    throw Exception('Failed to load dokter by ID');
+  }
+}
+
+  void searchDokter(String query) {
+    if (query.isEmpty) {
       clearSearchResult();
       return;
     }
 
     _searchResult = _dokterList
-        .where((dokter) => dokter.nama_dokter.toLowerCase().contains(query.toLowerCase()))
+        .where((dokter) =>
+            dokter.nama_dokter.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     notifyListeners();
   }
 
-  void filterDokterBySpesialis(String? spesialis) 
-  {
-    if (spesialis == null || spesialis == 'Spesialis') 
-    {
+  void filterDokterBySpesialisDanHari(String? spesialis, String? hari) {
+    if ((spesialis == null || spesialis == 'Spesialis') &&
+        (hari == null || hari == 'Hari')) {
       clearSearchResult();
-    } 
-    else 
-    {
+    } else if (spesialis == null || spesialis == 'Spesialis') {
       _searchResult = _dokterList
-          .where((dokter) => dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
+          .where((dokter) => dokter.jadwal.any((jadwalItem) =>
+              jadwalItem.hari.toLowerCase() == hari?.toLowerCase()))
+          .toList();
+    } else if (hari == null || hari == 'Hari') {
+      _searchResult = _dokterList
+          .where((dokter) =>
+              dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
+          .toList();
+    } else {
+      _searchResult = _dokterList
+          .where((dokter) =>
+              dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
+          .where((dokter) => dokter.jadwal.any((jadwalItem) =>
+              jadwalItem.hari.toLowerCase() == hari.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+  }
+
+  void filterDokterBySpesialis(String? spesialis) {
+    if (spesialis == null || spesialis == 'Spesialis') {
+      clearSearchResult();
+    } else {
+      _searchResult = _dokterList
+          .where((dokter) =>
+              dokter.jenis_spesialis.toLowerCase() == spesialis.toLowerCase())
           .toList();
     }
     notifyListeners();
   }
 
   void filterDokterByHari(String? hari) {
-    if (hari == null || hari == 'Semua') {
+    if (hari == null || hari == 'Hari') {
       clearSearchResult();
     } else {
       _searchResult = _dokterList
-          .where((dokter) => dokter.hari.toLowerCase() == hari.toLowerCase())
+          .where((dokter) => dokter.jadwal.any((jadwalItem) =>
+              jadwalItem.hari.toLowerCase() == hari?.toLowerCase()))
           .toList();
     }
     notifyListeners();
   }
 
-  void clearSearchResult() 
-  {
+  void clearSearchResult() {
     _searchResult.clear();
     notifyListeners();
   }

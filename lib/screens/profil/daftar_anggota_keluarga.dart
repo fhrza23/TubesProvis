@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../dashboard-notifikasi/dashboard.dart';
+import '../dashboard/dashboard.dart';
 import 'user_profile.dart';
 
 String _getImagePath(int index) {
@@ -54,16 +54,6 @@ class DaftarAnggotaKeluarga extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.notifications, color: Colors.white),
-        //     onPressed: () {},
-        //   ),
-        //   IconButton(
-        //     icon: Icon(Icons.person, color: Colors.white),
-        //     onPressed: () {},
-        //   ),
-        // ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -75,10 +65,11 @@ class DaftarAnggotaKeluarga extends StatelessWidget {
               child: Text(
                 'Daftar Anggota Keluarga',
                 textAlign: TextAlign.left,
-                style: GoogleFonts.montserrat(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: Colors.teal),
+                // style: GoogleFonts.montserrat(
+                //   fontSize: 23,
+                //   fontWeight: FontWeight.bold,
+                // ),
               ),
             ),
             ListView.separated(

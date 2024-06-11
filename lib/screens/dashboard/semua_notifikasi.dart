@@ -16,15 +16,6 @@ class NotificationListPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.person),
-        //     color: Colors.white,
-        //     onPressed: () {
-        //       // Navigate to user profile
-        //     },
-        //   ),
-        // ],
       ),
       body: NotificationListView(),
     );

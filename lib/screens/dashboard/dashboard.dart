@@ -5,7 +5,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_popup/flutter_popup.dart';
 // import 'package:provider/provider.dart';
 // import '../../jadwal_dokter.dart';
-import '../../doctor_list.dart';
+import '../dokter/doctor_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../profil/user_profile.dart';
 import '../../rekam_medis_1.dart';
@@ -139,14 +139,28 @@ class _DashboardPageState extends State<DashboardPage> {
           IconButton(
             icon: const Icon(Icons.person),
             color: Colors.white,
-            onPressed: () {
-                SharedPreferences.getInstance().then((prefs) {
-                // String? token = prefs.getString('token');
-              });
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserProfilePage()),
-              );
+            // onPressed: () {
+            //     SharedPreferences.getInstance().then((prefs) {
+            //     // String? token = prefs.getString('token');
+            //   });
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => UserProfilePage()),
+            //   );
+            // },
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              int? userId = prefs.getInt('user_id');
+              // if (userId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfilePage()),
+                );
+              // } 
+              // else {
+              //   // Handle the case where user_id is not available
+              //   print('User ID not found');
+              // }
             },
           ),
         ],

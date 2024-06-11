@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'screens/dashboard-notifikasi/dashboard.dart';
+import 'screens/dashboard/dashboard.dart';
 import 'qr_booking.dart';
 // import 'status_pemeriksaan.dart';
 
