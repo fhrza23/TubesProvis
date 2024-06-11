@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_1.dart';
+import 'screens/daftarlogin/login_1.dart';
 import 'daftar_1.dart';
 
 class konten extends StatelessWidget {
