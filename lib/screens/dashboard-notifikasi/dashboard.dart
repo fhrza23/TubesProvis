@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter_application_2/qr_booking.dart';
+// import 'package:flutter_application_2/qr_booking.dart';
 import 'package:flutter_popup/flutter_popup.dart';
-import 'package:provider/provider.dart';
-import '../../jadwal_dokter.dart';
+// import 'package:provider/provider.dart';
+// import '../../jadwal_dokter.dart';
 import '../../doctor_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../profil/user_profile.dart';
@@ -15,7 +15,7 @@ import 'semua_notifikasi.dart';
 import '../../services/api_service.dart';
 import '../../models/notif.dart';
 import 'package:intl/intl.dart';
-import '../../provider/token_provider.dart';
+// import '../../provider/token_provider.dart';
 import 'package:flutter_application_2/status_pemeriksaan.dart';
 
 class Dashboard extends StatelessWidget {
@@ -141,7 +141,7 @@ class _DashboardPageState extends State<DashboardPage> {
             color: Colors.white,
             onPressed: () {
                 SharedPreferences.getInstance().then((prefs) {
-                String? token = prefs.getString('token');
+                // String? token = prefs.getString('token');
               });
               Navigator.push(
                 context,

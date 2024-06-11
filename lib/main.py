@@ -171,7 +171,7 @@ def connect_db():
     try:
         conn = mysql.connector.connect(
             host='localhost',
-            database='db_provis',
+            database='db_provis3',
             user='root',
             password=''
         )

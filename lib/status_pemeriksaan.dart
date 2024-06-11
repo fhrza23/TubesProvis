@@ -25,8 +25,6 @@ class CheckUp extends StatelessWidget {
 }
 
 class CheckUpPage extends StatelessWidget{
-  
-
   @override
   Widget build(BuildContext context) {
 
@@ -34,28 +32,11 @@ class CheckUpPage extends StatelessWidget{
       appBar: AppBar(
           backgroundColor: Colors.teal, 
           leading: IconButton(
-            icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AppointmentRegistrationPage())
-              );
+              Navigator.pop(context);
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notifications, color: Colors.white), 
-              onPressed: () {
-               
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person, color: Colors.white), 
-              onPressed: () {
-                
-              },
-            ),
-          ],
       ),
       body: SingleChildScrollView(
         child: Padding(

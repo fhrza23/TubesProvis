@@ -30,20 +30,20 @@ class _ArtikelDetailPageState extends State<ArtikelDetailPage> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              // Fungsi yang akan dijalankan ketika tombol lonceng ditekan
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.white),
-            onPressed: () {
-              // Fungsi yang akan dijalankan ketika tombol profil ditekan
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.notifications, color: Colors.white),
+        //     onPressed: () {
+        //       // Fungsi yang akan dijalankan ketika tombol lonceng ditekan
+        //     },
+        //   ),
+        //   IconButton(
+        //     icon: Icon(Icons.account_circle, color: Colors.white),
+        //     onPressed: () {
+        //       // Fungsi yang akan dijalankan ketika tombol profil ditekan
+        //     },
+        //   ),
+        // ],
       ),
       body: Column(
           children: [

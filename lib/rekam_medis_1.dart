@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'rekam_medis_sarah.dart';
-import 'screens/dashboard-notifikasi/dashboard.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,22 +19,9 @@ class RekamMedis extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => Dashboard())
-            );
+            Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

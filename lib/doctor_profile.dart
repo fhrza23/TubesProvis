@@ -22,23 +22,11 @@ class DoctorProfile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.teal, 
         leading: IconButton(
-          icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-          onPressed: () {},
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white), 
-            onPressed: () {
-             
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.person, color: Colors.white), 
-            onPressed: () {
-              
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [

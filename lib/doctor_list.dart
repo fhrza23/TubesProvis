@@ -85,27 +85,6 @@ class _DoctorListState extends State<DoctorList> {
             Navigator.pop(context);
           },
         ),
-        //   onPressed: () {
-        //     // Navigator.push(
-        //     //   context,
-        //     //   MaterialPageRoute(builder: (context) => Dashboard())
-        //     // );
-        //   },
-        // ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              // Handle notifications
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.person, color: Colors.white),
-            onPressed: () {
-              // Handle profile
-            },
-          ),
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -56,20 +56,20 @@ class _ArtikelPageState extends State<ArtikelPage> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.white),
-            onPressed: () {
-              // Fungsi yang akan dijalankan ketika tombol profil ditekan
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.notifications, color: Colors.white),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        //   IconButton(
+        //     icon: Icon(Icons.account_circle, color: Colors.white),
+        //     onPressed: () {
+        //       // Fungsi yang akan dijalankan ketika tombol profil ditekan
+        //     },
+        //   ),
+        // ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

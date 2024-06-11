@@ -10,15 +10,21 @@ class NotificationListPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(35, 136, 120, 1),
         title: Text("Notifications"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            color: Colors.white,
-            onPressed: () {
-              // Navigate to user profile
-            },
-          ),
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.person),
+        //     color: Colors.white,
+        //     onPressed: () {
+        //       // Navigate to user profile
+        //     },
+        //   ),
+        // ],
       ),
       body: NotificationListView(),
     );

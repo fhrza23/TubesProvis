@@ -12,7 +12,7 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Laman Status Pemeriksaan',
+      title: 'Profil User',
       theme: ThemeData(
         primaryColor: Colors.teal,
         textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme),
@@ -52,20 +52,27 @@ class UserProfile extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pop(
                               context, 
-                              MaterialPageRoute(builder: (context) => Dashboard())
+                              // MaterialPageRoute(builder: (context) => Dashboard())
                             );
                           },
                           child: IconButton(
-                            icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+                                      icon: Icon(Icons.arrow_back, color: Colors.white),
                             onPressed: () {
                               Navigator.push(
                                 context, 
-                                MaterialPageRoute(builder: (context) => Dashboard())
-                              );
-                            },
-                          ),
+                                MaterialPageRoute(builder: (context) => Dashboard()));}
+                          )
+                          // child: IconButton(
+                          //   icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
+                          //   onPressed: () {
+                          //     Navigator.push(
+                          //       context, 
+                          //       MaterialPageRoute(builder: (context) => Dashboard())
+                          //     );
+                          //   },
+                          // ),
                         ),
                       ],
                     ),
