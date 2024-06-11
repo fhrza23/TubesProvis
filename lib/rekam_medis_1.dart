@@ -52,15 +52,7 @@ class RekamMedis extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                _buildPasien(context, 'Sarah', 'Umur 28 tahun', 'Peserta', 'images/Sarah.jpg'),
-                SizedBox(height: 8),
-                Divider(color: Colors.grey, indent: 20, endIndent: 20),
-                SizedBox(height: 8),
-                _buildPasien(context, 'Budi Santoso', 'Umur 50 tahun', 'Suami', 'images/Budi Santoso.jpg'),
-                SizedBox(height: 8),
-                Divider(color: Colors.grey, indent: 20, endIndent: 20),
-                SizedBox(height: 8),
-                _buildPasien(context, 'Maya', 'Umur 17 tahun', 'Anak', 'images/Maya.jpg'),
+                _buildPasien(context, '(Nama Keluarga)', '(Tanggal Lahir)', '(NIK)'),
                 SizedBox(height: 8),
                 Divider(color: Colors.grey, indent: 20, endIndent: 20),
               ],
@@ -72,7 +64,7 @@ class RekamMedis extends StatelessWidget {
     );
   }
 
-  Widget _buildPasien(BuildContext context, String name, String age, String participant, String imagePath) {
+  Widget _buildPasien(BuildContext context, String name, String age, String participant) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
@@ -80,17 +72,11 @@ class RekamMedis extends StatelessWidget {
           // Navigasi ke halaman rekam medis pasien yang sesuai
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RekamMedisSarahPage()), // Ganti dengan halaman yang sesuai
+            MaterialPageRoute(builder: (context) => RekamMedisSarahPage()),
           );
         },
         child: Row(
           children: [
-            Image.asset(
-              imagePath,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-            ),
             SizedBox(width: 16),
             Expanded(
               child: Column(
