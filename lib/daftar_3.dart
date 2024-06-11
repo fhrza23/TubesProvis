@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_application_2/main44.dart';
 import 'main.dart';
 
 class DaftarConfirmPage extends StatelessWidget {
@@ -66,52 +65,3 @@ class DaftarConfirmPage extends StatelessWidget {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'kontentengah.dart';
-
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: HomeScreen(),
-//     );
-//   }
-// }
-
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Rawatjalan.id',
-//           style: TextStyle(color: Colors.white),
-//         ),
-//         backgroundColor: Colors.teal[500],
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             SizedBox(height: 5),
-//             konten(),
-//             SizedBox(height: 20),
-//             // ElevatedButton(
-//             //   onPressed: () {
-//             //     // Navigasi ke halaman login ketika tombol Masuk ditekan
-//             //     Navigator.push(
-//             //       context,
-//             //       MaterialPageRoute(builder: (context) => LoginPage()),
-//             //     );
-//             //   },
-//             //   child: Text('Masuk'),
-//             // ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
