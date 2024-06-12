@@ -8,7 +8,7 @@ import 'package:flutter_popup/flutter_popup.dart';
 import '../dokter/doctor_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../profil/user_profile.dart';
-import '../../rekam_medis_1.dart';
+import '../../screens/rekam_medis/rekam_medis.dart';
 import '../artikel/artikel_1.dart';
 import '../../pendaftaraan.dart';
 import 'semua_notifikasi.dart';
@@ -370,7 +370,7 @@ class ButtonGrid extends StatelessWidget {
                 children: [
                   buildButton(Icons.queue, 'Status\nAntrean', CheckUp()),//JadwalDokter()),
                   SizedBox(width: 20),
-                  buildButton(Icons.access_time, 'Rekam\nMedis', RekamMedis()),
+                  buildButton(Icons.access_time, 'Rekam\nMedis', RekamMedisPage()),
                 ],
               ),
             ),

@@ -151,10 +151,10 @@ class pendaftaranService {
 
 class qrService {
 
-    final String baseUrl = "http://127.0.0.1:8000";
+  final String baseUrl = "http://127.0.0.1:8000";
 
-    Future<List<Map<String, dynamic>>> getAntrian() async {
-    final response = await http.get(Uri.parse('$baseUrl/api/getdaftar'));
+  Future<List<Map<String, dynamic>>> getAntrian(int idKeluarga, String tanggal) async {
+    final response = await http.get(Uri.parse('$baseUrl/api/getdaftar?id_keluarga=$idKeluarga&tanggal=$tanggal'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
@@ -163,4 +163,6 @@ class qrService {
       throw Exception('Failed to load antrian list');
     }
   }
+
+
 }

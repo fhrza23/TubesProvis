@@ -230,6 +230,25 @@ class get_antri(BaseModel):
     tanggal_janji: str
     qr: int
 
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+        
+class RekamMedis(BaseModel):
+    id_rekam_medis: int
+    id_user: int
+    id_keluarga: int
+    id_dokter: int
+    tanggal: str
+    diagnosis: str
+    resep_obat: str
+    create_at_rekam_medis: str
+    update_at_rekam_medis: str
+    nama_keluarga: str
+    tgl_lahir: str
+    nik: str
+    nama_dokter: str
+    foto_dokter: str
 
 # Fungsi untuk menghubungkan ke database MySQL
 def connect_db():
@@ -880,25 +899,54 @@ def create_antrian(antrian: Antrian, id_user: int = 9): #Depends(get_current_use
         raise HTTPException(status_code=500, detail="Internal server error occurred")
 
 
-@app.get('/api/getdaftar', status_code=201)
-def get_antrian():
+@app.get('/api/getdaftar', status_code=200)
+def get_antrian(id_keluarga: int, tanggal: str):
     try:
         conn = connect_db()
         cursor = conn.cursor()
+        
         query = '''
-            SELECT
-                antrian.tanggal_janji,
-                dokter.nama_dokter,
+            SELECT 
+                antrian.tanggal_janji, 
+                dokter.nama_dokter, 
                 antrian.kode_qr
-            FROM
+            FROM 
                 antrian
-            JOIN
+            JOIN 
                 dokter ON antrian.id_dokter = dokter.id_dokter
+            WHERE 
+                antrian.id_keluarga = %s
+                AND antrian.tanggal_janji = %s
         '''
-        cursor.execute(query)
+        cursor.execute(query, (id_keluarga, tanggal))
         antrian_list = cursor.fetchall()
+
         conn.close()
         return [{'tanggal_janji': antrian[0], 'nama_dokter': antrian[1], 'kode_qr': antrian[2]} for antrian in antrian_list]
     except Exception as e:
         print(f"Error fetching antrian: {e}")
         raise HTTPException(status_code=500, detail="Internal server error occurred")
+    
+@app.get('/api/rekam_medis/{id_user}', response_model=List[RekamMedis])
+def get_rekam_medis(id_user: int):
+    conn = connect_db()
+    if not conn:
+        raise HTTPException(status_code=500, detail="Failed to connect to database")
+    
+    cursor = conn.cursor(dictionary=True)
+    query = '''
+        SELECT rm.*, k.nama_keluarga, k.tgl_lahir, k.nik, d.nama_dokter, d.foto_dokter 
+        FROM rekam_medis rm 
+        INNER JOIN keluarga k ON rm.id_keluarga = k.id_keluarga 
+        INNER JOIN dokter d ON rm.id_dokter = d.id_dokter
+        WHERE rm.id_user = %s
+    '''
+    cursor.execute(query, (id_user,))
+    rekam_medis_list = cursor.fetchall()
+
+    conn.close()
+    
+    if rekam_medis_list:
+        return rekam_medis_list
+    else:
+        raise HTTPException(status_code=404, detail="Rekam Medis not found")

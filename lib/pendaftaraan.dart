@@ -474,29 +474,12 @@ class _AppointmentRegistrationPageState extends State<AppointmentRegistrationPag
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.teal, 
-          leading: IconButton(
-            icon: Icon(Icons.arrow_circle_left, color: Colors.white), 
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Dashboard()),
-              );
-            },
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notifications, color: Colors.white), 
-              onPressed: () {
-               
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.person, color: Colors.white), 
-              onPressed: () {
-                
-              },
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         ),
         body: SingleChildScrollView(
         child: Padding(
@@ -739,8 +722,7 @@ class _AppointmentRegistrationPageState extends State<AppointmentRegistrationPag
                 onPressed: () {
                   _registerAppointment();
                   Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (context) => CheckUp())
+                    context, MaterialPageRoute(builder: (context) => CheckUpPage(idKeluarga: selectedKeluargaId!, selectedDate: DateFormat('yyyy-MM-dd').format(selectedDate)))
                   );
                 },
                 style: ElevatedButton.styleFrom(
