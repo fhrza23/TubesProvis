@@ -8,6 +8,7 @@ import 'provider/dokter_provider.dart';
 import 'provider/token_provider.dart';
 import 'provider/sandi_provider.dart';
 import 'provider/login_provider.dart';
+import 'provider/daftar_provider.dart';
 import 'provider/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'kontentengah.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => DokterProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => DaftarProvider()),
         ChangeNotifierProvider(create: (context) => DaftarModel()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => TokenProvider()),

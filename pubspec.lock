@@ -224,6 +224,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  localization:
+    dependency: "direct main"
+    description:
+      name: localization
+      sha256: "9fa21644b75ca3fe844f8f115d03cd6fdc675054dd9aab6c5de5861145ea57b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   matcher:
     dependency: transitive
     description:
@@ -360,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  qr_flutter:
+    dependency: "direct main"
+    description:
+      name: qr_flutter
+      sha256: "5095f0fc6e3f71d08adef8feccc8cea4f12eec18a2e31c2e8d82cb6019f4b097"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   shared_preferences:
     dependency: "direct main"
     description:

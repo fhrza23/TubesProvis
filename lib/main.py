@@ -176,6 +176,60 @@ class ChangePasswordRequest(BaseModel):
     class Config:
         orm_mode = True
         validate_assignment = True
+        
+# Model untuk data keluarga
+class Keluarga(BaseModel):
+    id_keluarga: int
+    id_user: int
+    nama_keluarga: str
+    
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+        
+class Asuransi(BaseModel):
+    id_asuransi: int
+    nama_asuransi: str
+    
+class AsuransiList(BaseModel):
+    asuransi: List[Asuransi]
+    
+class Dokter(BaseModel):
+    id_dokter: int
+    nama_dokter: str
+    
+class DokterList(BaseModel):
+    dokter: List[Dokter]
+    
+class Jadwal(BaseModel):
+    id_jadwal: int
+    jam: str
+    hari: str
+    
+class JadwalList(BaseModel):
+    jadwal: List[Jadwal]
+    
+class Antrian(BaseModel):
+    id_antrian : int
+    id_user: int
+    id_keluarga: int
+    id_dokter: int
+    nama_pasien: str
+    tanggal_janji: str
+    kode_qr: int
+    create_at_notif: Optional[datetime] = None
+    update_at_notif: Optional[datetime] = None
+
+    class Config:
+        orm_mode = True
+        validate_assignment = True
+    
+class get_antri(BaseModel):
+    id_antrian: int
+    nama_dokter: str
+    tanggal_janji: str
+    qr: int
+
 
 # Fungsi untuk menghubungkan ke database MySQL
 def connect_db():
@@ -707,3 +761,144 @@ def get_payments(current_user: RegisterUser = Depends(get_current_user)):
     finally:
         conn.close()
     return [Payment(id_payment=row[0], amount=row[1], ewallet=row[2]) for row in payments]
+
+@app.get('/api/spesialis2')
+def get_spesialis():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id_spesialis, jenis_spesialis FROM spesialis')
+    spesialis_list = cursor.fetchall()
+    conn.close()
+    return [{'id_spesialis': spesialis[0], 'jenis_spesialis': spesialis[1]} for spesialis in spesialis_list]
+
+@app.get('/api/dokter_by_spesialis/{spesialis_id}')
+def get_dokter_by_spesialis(spesialis_id: int):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT dokter.id_dokter, dokter.nama_dokter
+        FROM dokter
+        JOIN spesialis ON dokter.id_dokter = spesialis.id_dokter
+        WHERE spesialis.id_spesialis = %s
+    ''', (spesialis_id,))
+    dokter_list = cursor.fetchall()
+    conn.close()
+    if not dokter_list:
+        raise HTTPException(status_code=404, detail="No doctors found for this specialty")
+    dokter_objects = [{'id_dokter': dokter[0], 'nama_dokter': dokter[1]} for dokter in dokter_list]
+    return DokterList(dokter=dokter_objects)
+
+@app.get('/api/keluarga')
+def get_keluarga():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id_keluarga, nama_keluarga FROM keluarga')
+    keluarga_list = cursor.fetchall()
+    conn.close()
+    return [{'id_keluarga': keluarga[0], 'nama_keluarga': keluarga[1]} for keluarga in keluarga_list]
+
+@app.get('/api/asuransi_by_keluarga/{id_keluarga}')
+def get_asuransi_by_keluarga(id_keluarga: int):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT asuransi.id_asuransi, asuransi.nama_asuransi
+        FROM asuransi
+        JOIN keluarga ON asuransi.id_keluarga = keluarga.id_keluarga
+        WHERE keluarga.id_keluarga = %s
+    ''', (id_keluarga,))
+    asuransi_list = cursor.fetchall()
+    conn.close()
+    if not asuransi_list:
+        raise HTTPException(status_code=404, detail="No insurance found for this family")
+    asuransi_objects = [{'id_asuransi': asuransi[0], 'nama_asuransi': asuransi[1]} for asuransi in asuransi_list]
+    return AsuransiList(asuransi=asuransi_objects)
+
+@app.get('/api/jadwal_dokter/{id_dokter}/{hari}')
+def get_jadwal_dokter(id_dokter: int, hari: str):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id_jadwal, jam, hari
+        FROM jadwal
+        WHERE id_dokter = %s AND hari = %s
+    ''', (id_dokter, hari))
+    jadwal_list = cursor.fetchall()
+    conn.close()
+    if not jadwal_list:
+        raise HTTPException(status_code=404, detail="No schedule found for this doctor on the specified day")
+    jadwal_objects = [{'id_jadwal': jadwal[0], 'jam': jadwal[1], 'hari': jadwal[2]} for jadwal in jadwal_list]
+    return JadwalList(jadwal=jadwal_objects)
+
+# @app.post('/api/daftar', status_code=201)
+# def create_antrian(antrian: Antrian):
+#     try:
+#         conn = connect_db()
+#         qr = randint(100000, 999999)
+#         id_user = Depends(get_current_user)
+#         cursor = conn.cursor()
+#         cursor.execute('INSERT INTO antrian (id_antrian, id_user, id_keluarga, id_dokter, nama_pasien, tanggal_janji, no_antrian, kode_qr) VALUES ('23', %s, %s, %s, %s, %s, '30', %s)',
+#                        (antrian.id_user, antrian.id_keluarga, antrian.id_dokter, antrian.nama_pasien, antrian.tanggal_janji, qr))
+#         conn.commit()
+#         conn.close()
+#         return {'message': 'Antrian created successfully'}
+#     except Exception as e:
+#         print(f"Error creating antrian: {e}")
+#         raise HTTPException(status_code=500, detail="Internal server error occurred")
+    
+@app.post('/api/daftar', status_code=201)
+def create_antrian(antrian: Antrian, id_user: int = 9): #Depends(get_current_user)):
+    try:
+        conn = connect_db()
+        cursor = conn.cursor()
+        
+        qr = randint(100000, 999999)
+        id_antrian = 23  # Nilai statis
+        no_antrian = 30  # Nilai statis
+        
+        print("ID Antrian:", id_antrian)
+        print("ID User:", id_user)
+        print("ID Keluarga:", antrian.id_keluarga)
+        print("ID Dokter:", antrian.id_dokter)
+        print("Nama Pasien:", antrian.nama_pasien)
+        print("Tanggal Janji:", antrian.tanggal_janji)
+        # print("No Antrian:", no_antrian)
+        print("Kode QR:", qr)
+        
+        cursor.execute('''
+            INSERT INTO antrian (id_antrian, id_user, id_keluarga, id_dokter, nama_pasien, tanggal_janji, kode_qr) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ''', (id_antrian, id_user, antrian.id_keluarga, antrian.id_dokter, antrian.nama_pasien, antrian.tanggal_janji, qr))
+        
+        conn.commit()
+        conn.close()
+        
+        return {'message': 'Antrian created successfully'}
+    
+    except Exception as e:
+        print(f"Error creating antrian: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error occurred")
+
+
+@app.get('/api/getdaftar', status_code=201)
+def get_antrian():
+    try:
+        conn = connect_db()
+        cursor = conn.cursor()
+        query = '''
+            SELECT
+                antrian.tanggal_janji,
+                dokter.nama_dokter,
+                antrian.kode_qr
+            FROM
+                antrian
+            JOIN
+                dokter ON antrian.id_dokter = dokter.id_dokter
+        '''
+        cursor.execute(query)
+        antrian_list = cursor.fetchall()
+        conn.close()
+        return [{'tanggal_janji': antrian[0], 'nama_dokter': antrian[1], 'kode_qr': antrian[2]} for antrian in antrian_list]
+    except Exception as e:
+        print(f"Error fetching antrian: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error occurred")
